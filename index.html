@@ -10,11 +10,18 @@
     text{
       fill:white;
     }
+
   </style>
 </head>
 
 <body>
   <svg id="svg-container"></svg>
+
+  <input type="text" id="insertVal">
+  <button id="submitval" onClick="insertIntoTree()">Insert</button>
+
+
+
   <script async>
       var CONFIGSVG = {width:1200,height:500}
       var svgContainer = d3.select("#svg-container").append("svg").attr("width",CONFIGSVG.width).attr("height",CONFIGSVG.height)
@@ -47,13 +54,10 @@
 
       var drawEdge = (id,x1,y1,x2,y2,duration,delay) => new Promise((resolve,reject)=>{
 
-
           svgContainer.append("g").attr("id",id).attr("class","edge").append("line").
           attr("x1",x1).attr("y1",y1).attr("x2",x1).attr("y2",y1).attr("stroke-width", 2).attr("stroke", "black")
           .transition().delay(delay).duration(duration).attr("x2",x2).attr("y2",y2).on("end",resolve)
-
-
-          
+      
       })
 
       var f = async() => {
@@ -203,7 +207,7 @@ let search = (tree, v, messages) => {
 let tree = [];
 let messages = [];
 
-insert(tree, 49, messages);
+insert(tree, 50, messages);
 insert(tree, 23, messages);
 insert(tree, 17, messages);
 insert(tree, 28, messages);
@@ -247,12 +251,29 @@ function myLoop () {
       if (i < messages.length) {            
          myLoop();             
       }                        
-   }, 500)
+   }, 1000)
 }
 myLoop()
 //setTimeout(parseStep(messages[0][1]),4001)
 //
 
+
+
+
+
+
+
+///////// DOM BINDINGS
+function insertIntoTree(){
+  val = document.getElementById("insertVal").value
+  console.log(val)
+  insert(tree,parseInt(val),messages)
+  //console.log()
+  
+  myLoop()
+
+  
+}
 
   </script>
 </body>
