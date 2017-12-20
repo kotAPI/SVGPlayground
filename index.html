@@ -16,7 +16,7 @@
 <body>
   <svg id="svg-container"></svg>
   <script async>
-      var CONFIGSVG = {width:800,height:500}
+      var CONFIGSVG = {width:1200,height:500}
       var svgContainer = d3.select("#svg-container").append("svg").attr("width",CONFIGSVG.width).attr("height",CONFIGSVG.height)
 
       var createNode = (id,x,y,textcontent,duration) => new Promise((resolve,reject)=>{
@@ -79,7 +79,7 @@
       };
 
       let CONFIG = {
-        canvas: {width: 800},
+        canvas: {width: 1200},
         row: {height: 60}
       };
       //console.log(findXYPos(30, CONFIG))
@@ -93,8 +93,10 @@
 
 
       function parseStep(obj){
+        
         if(obj.msg==="SPAWN_NODE"){
-          createNode(obj.params.idx+"",200,50,obj.params.idx,1000)
+          var node = findXYPos(obj.params.idx,CONFIG)
+          createNode(obj.params.idx+"",node.x,node.y,obj.params.val,1000)
         }
         else if(obj.msg==="HIGHLIGHT_NODE"){
           selectNode(obj.params.idx)
@@ -103,7 +105,9 @@
           
         }
         else if(obj.msg ==="SPAWN_EDGE"){
-          console.log(obj)
+          var node1 = findXYPos(obj.params.from,CONFIG)
+          var node2 = findXYPos(obj.params.to,CONFIG)
+          drawEdge("1",node1.x,node1.y,node2.x,node2.y,500,100)
         }
         else if(obj.msg ==="SELECT_EDGE"){
 
@@ -115,9 +119,9 @@
 
 
 
-      let spawnNodeMessage = (idx) => ({
+      let spawnNodeMessage = (idx, val) => ({
   msg: 'SPAWN_NODE',
-  params: { idx }
+  params: { idx, val }
 });
 
 let selectNodeMessage = (idx) => ({
@@ -157,7 +161,7 @@ let insert = (tree, v, messages) => {
   }
   const parenthead = Math.max(Math.floor((head - 1)/2), 0)
   messages.push([ spawnEdgeMessage(parenthead, head), highlightEdgeMessage(parenthead, head) ]);  
-  messages.push([ spawnNodeMessage(head), highlightNodeMessage(head) ]);
+  messages.push([ spawnNodeMessage(head, v) ]);
   tree[head] = v;
   return tree;
 };
@@ -206,11 +210,46 @@ insert(tree, 28, messages);
 insert(tree, 59, messages);
 insert(tree, 19, messages);
 insert(tree, 43, messages);
+insert(tree, 56, messages);
+insert(tree, 73, messages);
+insert(tree, 68, messages);
 
-console.log(messages);
+//console.log(messages);
 
 
-parseStep(messages[0][0])
+//parseStep(messages[0][0])
+
+// for(var i=0;i<messages.length;i++){
+//   var message = messages[i];
+//   for(var j=0;j<message.length;j++){
+
+//       var eventMsg = message[j];
+      
+
+
+//   }
+  
+// }
+
+var i = 0;                    
+var j = 0
+
+function myLoop () {          
+   setTimeout(function () {    
+      var message = messages[i];
+      for(var k=0;k<message.length;k++){
+        //console.log(message[])
+        parseStep(message[k])
+      } 
+
+      i++; 
+
+      if (i < messages.length) {            
+         myLoop();             
+      }                        
+   }, 500)
+}
+myLoop()
 //setTimeout(parseStep(messages[0][1]),4001)
 //
 
