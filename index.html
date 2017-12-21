@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <script src="https://d3js.org/d3.v4.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-promise/3.2.2/es6-promise.min.js"></script>
-  
+  <script src="./src/tree.js"></script>
 
   <style>
     body {
@@ -27,7 +27,6 @@
     text {
       fill: white;
     }
-
   </style>
 </head>
 
@@ -38,29 +37,5 @@
 
   <input type="text" id="insertVal">
   <button id="submitval" onClick="insertIntoTree()">Insert</button>
-
-    let highlightNodeMessage = (idx) => ({
-      msg: 'HIGHLIGHT_NODE',
-      params: {
-        idx
-      }
-    });
-
-    let spawnEdgeMessage = (from, to) => ({
-      msg: 'SPAWN_EDGE',
-      params: {
-        from,
-        to
-      }
-    });
-
-    let selectEdgeMessage = (from, to) => ({
-      msg: 'SELECT_EDGE',
-      params: {
-        from,
-        to
-      }
-    });
-
   <script src="./src/amazingLibraryName.js"></script>
 </body>
