@@ -29,6 +29,12 @@ let highlightEdgeMessage = (from, to) => ({
 	params: { from, to }
 });
 
+let printNodeMessage = (val) => ({
+	msg: 'PRINT_NODE',
+	params: { val }
+});
+
+
 // tree operations
 let insert = (tree, v, messages) => {
 	head = 0;
@@ -58,6 +64,10 @@ let search = (tree, v, messages) => {
 	messages.push([ spawnNodeMessage(head), highlightNodeMessage(head) ]);
 	return tree[head] === v;
 };
+
+let inorderTraveral = (tree, head, messages) => {
+	
+}
 
 // let remove = (tree, v) => {
 // 	head = 0;
