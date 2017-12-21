@@ -34,20 +34,19 @@ let printNodeMessage = (val) => ({
 	params: { val }
 });
 
-
 // tree operations
 let insert = (tree, v, messages) => {
 	head = 0;
 	while (tree[head] !== undefined && tree[head] !== v) {
-		messages.push([selectNodeMessage(head), highlightNodeMessage(head)]);
+		messages.push([ highlightNodeMessage(head), selectNodeMessage(head) ]);
 		newhead = tree[head] > v ? head * 2 + 1 : head * 2 + 2;
 
-		messages.push([selectEdgeMessage(head, newhead), highlightEdgeMessage(head, newhead)]);
+		messages.push([ highlightEdgeMessage(head, newhead), selectEdgeMessage(head, newhead) ]);
 		head = newhead;
 	}
-	const parenthead = Math.max(Math.floor((head - 1) / 2), 0)
-	messages.push([spawnEdgeMessage(parenthead, head), highlightEdgeMessage(parenthead, head)]);
-	messages.push([spawnNodeMessage(head, v)]);
+	const parenthead = Math.max(Math.floor((head - 1) / 2), 0);
+	messages.push([ spawnEdgeMessage(parenthead, head), highlightEdgeMessage(parenthead, head) ]);
+	messages.push([ spawnNodeMessage(head, v) ]);
 	tree[head] = v;
 	return tree;
 };
@@ -55,19 +54,60 @@ let insert = (tree, v, messages) => {
 let search = (tree, v, messages) => {
 	head = 0;
 	while (tree[head] !== undefined && tree[head] !== v) {
-		messages.push([ selectNodeMessage(head), highlightNodeMessage(head) ]);
+		messages.push([ highlightNodeMessage(head), selectNodeMessage(head) ]);
 		newhead = tree[head] > v ? head * 2 + 1 : head * 2 + 2;
 
-		messages.push([ selectEdgeMessage(head, newhead), highlightEdgeMessage(head, newhead) ]);
+		messages.push([ highlightEdgeMessage(head, newhead), selectEdgeMessage(head, newhead) ]);
 		head = newhead;
 	}
 	messages.push([ spawnNodeMessage(head), highlightNodeMessage(head) ]);
 	return tree[head] === v;
 };
 
-let inorderTraveral = (tree, head, messages) => {
-	
-}
+let inorderTraversal = (tree, head, messages) => {
+	if (tree[head * 2 + 1] !== undefined) {
+		messages.push([ highlightEdgeMessage(head, head * 2 + 1), selectEdgeMessage(head, head * 2 + 1) ]);
+		inorderTraversal(tree, head * 2 + 1, messages);
+	}
+	if (tree[head] !== undefined) {
+		console.log(tree[head]);
+		messages.push([ [ highlightNodeMessage(head), selectNodeMessage(head), printNodeMessage(tree[head]) ] ]);
+	}
+	if (tree[head * 2 + 2] !== undefined) {
+		messages.push([ highlightEdgeMessage(head, head * 2 + 2), selectEdgeMessage(head, head * 2 + 2) ]);
+		inorderTraversal(tree, head * 2 + 2, messages);
+	}
+};
+
+let preorderTraversal = (tree, head, messages) => {
+	if (tree[head] !== undefined) {
+		console.log(tree[head]);
+		messages.push([ [ highlightNodeMessage(head), selectNodeMessage(head), printNodeMessage(tree[head]) ] ]);
+	}
+	if (tree[head * 2 + 1] !== undefined) {
+		messages.push([ highlightEdgeMessage(head, head * 2 + 1), selectEdgeMessage(head, head * 2 + 1) ]);
+		preorderTraversal(tree, head * 2 + 1, messages);
+	}
+	if (tree[head * 2 + 2] !== undefined) {
+		messages.push([ highlightEdgeMessage(head, head * 2 + 2), selectEdgeMessage(head, head * 2 + 2) ]);
+		preorderTraversal(tree, head * 2 + 2, messages);
+	}
+};
+
+let postorderTraversal = (tree, head, messages) => {
+	if (tree[head * 2 + 1] !== undefined) {
+		messages.push([ highlightEdgeMessage(head, head * 2 + 1), selectEdgeMessage(head, head * 2 + 1) ]);
+		postorderTraversal(tree, head * 2 + 1, messages);
+	}
+	if (tree[head * 2 + 2] !== undefined) {
+		messages.push([ highlightEdgeMessage(head, head * 2 + 2), selectEdgeMessage(head, head * 2 + 2) ]);
+		postorderTraversal(tree, head * 2 + 2, messages);
+	}
+	if (tree[head] !== undefined) {
+		console.log(tree[head]);
+		messages.push([ [ highlightNodeMessage(head), selectNodeMessage(head), printNodeMessage(tree[head]) ] ]);
+	}
+};
 
 // let remove = (tree, v) => {
 // 	head = 0;
@@ -91,14 +131,20 @@ let inorderTraveral = (tree, head, messages) => {
 // };
 
 let tree = [];
-let messages = [];
 
-insert(tree, 49, messages);
-insert(tree, 23, messages);
-insert(tree, 17, messages);
-insert(tree, 28, messages);
-insert(tree, 59, messages);
-insert(tree, 19, messages);
-insert(tree, 43, messages);
+let insert_messages = [];
+let inorder_messages = [];
+let preorder_messages = [];
+let postorder_messages = [];
 
-console.log(messages);
+insert(tree, 49, insert_messages);
+insert(tree, 23, insert_messages);
+insert(tree, 17, insert_messages);
+insert(tree, 28, insert_messages);
+insert(tree, 59, insert_messages);
+insert(tree, 19, insert_messages);
+insert(tree, 43, insert_messages);
+
+// inorderTraversal(tree, 0, inorder_messages);
+// preorderTraversal(tree, 0, preorder_messages);
+// postorderTraversal(tree, 0, postorder_messages);
