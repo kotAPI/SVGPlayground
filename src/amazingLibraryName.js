@@ -1,7 +1,7 @@
 var CONFIGSVG = {
   width: 1200,
   height: 500,
-  gameSpeed: 0.5
+  gameSpeed: 0.3
 };
 var svgContainer = d3
   .select('#svg-container')
@@ -184,7 +184,14 @@ insert(tree, 50, messages);
 insert(tree, 23, messages);
 insert(tree, 17, messages);
 insert(tree, 28, messages);
+console.log("Searching....")
 search(tree,28,messages)
+console.log("Inorder....")
+inorderTraversal(tree, 0, messages);
+console.log("Pre Order....")
+preorderTraversal(tree, 0, messages);
+console.log("Post Order....")
+postorderTraversal(tree, 0, messages);
 
 var FinalMessages = [];
 for (var i = 0; i < messages.length; i++) {
@@ -205,6 +212,12 @@ window.setInterval(function () {
   i++;
   
 }, CONFIGSVG.gameSpeed * 2000);
+
+
+
+
+
+
 
 // DOM BINDINGS
 function insertIntoTree() {

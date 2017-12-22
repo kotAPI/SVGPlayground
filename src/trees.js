@@ -43,8 +43,9 @@ let insert = (tree, v, messages) => {
 		messages.push([ highlightNodeMessage(head), selectNodeMessage(head) ]);
 		newhead = tree[head] > v ? head * 2 + 1 : head * 2 + 2;
 
-		messages.push([ highlightEdgeMessage(head, newhead), selectEdgeMessage(head, newhead) ]);
-
+		if (tree[newhead] !== undefined) {
+			messages.push([ highlightEdgeMessage(head, newhead), selectEdgeMessage(head, newhead) ]);
+		}
 		head = newhead;
 	}
 	const parenthead = Math.max(Math.floor((head - 1) / 2), 0);
@@ -61,8 +62,9 @@ let search = (tree, v, messages) => {
 		messages.push([ highlightNodeMessage(head), selectNodeMessage(head) ]);
 		newhead = tree[head] > v ? head * 2 + 1 : head * 2 + 2;
 
-		messages.push([ highlightEdgeMessage(head, newhead), selectEdgeMessage(head, newhead) ]);
-
+		if (tree[newhead] !== undefined) {
+			messages.push([ highlightEdgeMessage(head, newhead), selectEdgeMessage(head, newhead) ]);
+		}
 		head = newhead;
 	}
 	messages.push([ spawnNodeMessage(head), highlightNodeMessage(head) ]);
