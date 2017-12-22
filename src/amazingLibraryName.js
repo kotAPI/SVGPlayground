@@ -180,18 +180,33 @@ function parseStep(obj) {
 let tree = [];
 let messages = [];
 
-insert(tree, 50, messages);
-insert(tree, 23, messages);
-insert(tree, 17, messages);
-insert(tree, 28, messages);
-console.log("Searching....")
-search(tree,28,messages)
-console.log("Inorder....")
-inorderTraversal(tree, 0, messages);
-console.log("Pre Order....")
-preorderTraversal(tree, 0, messages);
-console.log("Post Order....")
-postorderTraversal(tree, 0, messages);
+// insert(tree, 50, messages);
+// insert(tree, 23, messages);
+// insert(tree, 17, messages);
+// insert(tree, 28, messages);
+// console.log("Searching....")
+
+// resetNodes()
+// resetEdges()
+// search(tree,28,messages)
+
+// console.log("Inorder....")
+// resetNodes()
+// resetEdges()
+
+// inorderTraversal(tree, 0, messages);
+// resetNodes()
+// resetEdges()
+
+// console.log("Pre Order....")
+// preorderTraversal(tree, 0, messages);
+// resetNodes()
+// resetEdges()
+
+// console.log("Post Order....")
+// postorderTraversal(tree, 0, messages);
+// resetNodes()
+// resetEdges()
 
 var FinalMessages = [];
 for (var i = 0; i < messages.length; i++) {
@@ -203,25 +218,46 @@ for (var i = 0; i < messages.length; i++) {
   }
 }
 
-var i = 0;
-window.setInterval(function () {
+// var i = 0;
+// window.setInterval(function () {
   
-      parseStep(FinalMessages[i]);
+//       parseStep(FinalMessages[i]);
       
   
-  i++;
+//   i++;
   
-}, CONFIGSVG.gameSpeed * 2000);
+// }, CONFIGSVG.gameSpeed * 2000);
 
 
+var i = 0;                    
+var j = 0
+function myLoop () {          
+   setTimeout(function () {    
+      var message = messages[i];
+      for(var k=0;k<message.length;k++){
+        //console.log(message[])
+        parseStep(message[k])
+      } 
+      i++; 
+      if (i < messages.length) {            
+         myLoop();             
+      }                        
+   }, 1000)
+}
 
+// myLoop()
 
-
-
+function searchTree(){
+  val = document.getElementById('searchVal').value;
+  console.log(val);
+  insert(tree, parseInt(val), messages);
+  myLoop()
+}
 
 // DOM BINDINGS
 function insertIntoTree() {
   val = document.getElementById('insertVal').value;
   console.log(val);
   insert(tree, parseInt(val), messages);
+  myLoop()
 }
