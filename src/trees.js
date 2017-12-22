@@ -14,6 +14,11 @@ let highlightNodeMessage = (idx) => ({
 	params: { idx }
 });
 
+let nodeNotFoundMessage = (val) => ({
+	msg: 'NODE_NOT_FOUND',
+	params: { val }	
+})
+
 let spawnEdgeMessage = (from, to) => ({
 	msg: 'SPAWN_EDGE',
 	params: { from, to }
@@ -62,7 +67,11 @@ let search = (tree, v, messages) => {
 		}
 		head = newhead;
 	}
-	messages.push([ spawnNodeMessage(head), highlightNodeMessage(head) ]);
+	if (tree[head] === v) {
+		messages.push([ highlightNodeMessage(head) ]);
+	} else {
+		messages.push([ nodeNotFoundMessage(v) ]);		
+	}
 	return tree[head] === v;
 };
 
