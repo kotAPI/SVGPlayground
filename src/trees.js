@@ -32,6 +32,7 @@ let selectEdgeMessage = (from, to) => ({
 let highlightEdgeMessage = (from, to) => ({
 	msg: 'HIGHLIGHT_EDGE',
 	params: { from, to }
+
 });
 
 let printNodeMessage = (val) => ({
@@ -43,8 +44,10 @@ let printNodeMessage = (val) => ({
 let insert = (tree, v, messages) => {
 	head = 0;
 	while (tree[head] !== undefined && tree[head] !== v) {
+
 		messages.push([ highlightNodeMessage(head), selectNodeMessage(head) ]);
 		newhead = tree[head] > v ? head * 2 + 1 : head * 2 + 2;
+
 		if (tree[newhead] !== undefined) {
 			messages.push([ highlightEdgeMessage(head, newhead), selectEdgeMessage(head, newhead) ]);
 		}
@@ -60,8 +63,10 @@ let insert = (tree, v, messages) => {
 let search = (tree, v, messages) => {
 	head = 0;
 	while (tree[head] !== undefined && tree[head] !== v) {
+
 		messages.push([ highlightNodeMessage(head), selectNodeMessage(head) ]);
 		newhead = tree[head] > v ? head * 2 + 1 : head * 2 + 2;
+
 		if (tree[newhead] !== undefined) {
 			messages.push([ highlightEdgeMessage(head, newhead), selectEdgeMessage(head, newhead) ]);
 		}
@@ -73,6 +78,7 @@ let search = (tree, v, messages) => {
 		messages.push([ nodeNotFoundMessage(v) ]);		
 	}
 	return tree[head] === v;
+
 };
 
 let inorderTraversal = (tree, head, messages) => {
@@ -141,11 +147,14 @@ let postorderTraversal = (tree, head, messages) => {
 // 	moveSubtree(tree, oldIdx * 2 + 2, newIdx * 2 + 2);
 // };
 
+
 ////////////////
 // TEST SUITE //
 ////////////////
 
+
 // let tree = [];
+
 
 // let insert_messages = [];
 // let inorder_messages = [];
