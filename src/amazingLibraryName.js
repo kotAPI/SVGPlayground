@@ -1,7 +1,7 @@
 var CONFIGSVG = {
   width: 1200,
   height: 500,
-  gameSpeed: 0.7
+  gameSpeed: 0.5
 };
 var svgContainer = d3
   .select('#svg-container')
@@ -184,12 +184,7 @@ insert(tree, 50, messages);
 insert(tree, 23, messages);
 insert(tree, 17, messages);
 insert(tree, 28, messages);
-insert(tree, 59, messages);
-insert(tree, 19, messages);
-insert(tree, 43, messages);
-insert(tree, 56, messages);
-insert(tree, 73, messages);
-insert(tree, 68, messages);
+search(tree,28,messages)
 
 var FinalMessages = [];
 for (var i = 0; i < messages.length; i++) {
@@ -203,8 +198,12 @@ for (var i = 0; i < messages.length; i++) {
 
 var i = 0;
 window.setInterval(function () {
-  parseStep(FinalMessages[i]);
+  
+      parseStep(FinalMessages[i]);
+      
+  
   i++;
+  
 }, CONFIGSVG.gameSpeed * 2000);
 
 // DOM BINDINGS
