@@ -128,13 +128,24 @@ var highlightEdge = (fromid, toid) =>
   });
 var selectEdge = (fromid, toid) =>
   new Promise((resolve, reject) => {
-    var edge = d3
-      .select('g')
-      .selectAll('#edge' + fromid + '-' + toid)
-      .select('line')
-      .attr('stroke-width', 10)
-      .style('stroke', 'red');
-    resolve();
+    d3
+      .select('#edge-group')
+      .append('g')
+      .attr('id', 'edge' + fromid + '-' + toid)
+      .attr('class', 'edge')
+      .append('line')
+      .attr('x1', x1)
+      .attr('y1', y1)
+      .attr('x2', x1)
+      .attr('y2', y1)
+      .attr('stroke-width', 6)
+      .attr('stroke', 'orange')
+      .transition()
+      .delay(delay)
+      .duration(CONFIGSVG.gameSpeed * 2000)
+      .attr('x2', x2)
+      .attr('y2', y2)
+      .on('end', resolve);
   });
 
 const findXYPos = (nodeIdx, config) => {
@@ -261,3 +272,11 @@ function insertIntoTree() {
   insert(tree, parseInt(val), messages);
   myLoop()
 }
+
+
+
+
+
+
+////////////
+
