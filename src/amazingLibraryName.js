@@ -1,6 +1,6 @@
 var CONFIGSVG = {
-  width: 1200,
-  height: 500,
+  width: 800,
+  height: 380,
   gameSpeed: 0.3
 };
 var svgContainer = d3
@@ -134,17 +134,11 @@ var selectEdge = (fromid, toid) =>
       .attr('id', 'edge' + fromid + '-' + toid)
       .attr('class', 'edge')
       .append('line')
-      .attr('x1', x1)
-      .attr('y1', y1)
-      .attr('x2', x1)
-      .attr('y2', y1)
+      
       .attr('stroke-width', 6)
       .attr('stroke', 'orange')
       .transition()
-      .delay(delay)
       .duration(CONFIGSVG.gameSpeed * 2000)
-      .attr('x2', x2)
-      .attr('y2', y2)
       .on('end', resolve);
   });
 
@@ -161,7 +155,7 @@ const findXYPos = (nodeIdx, config) => {
 
 let CONFIG = {
   canvas: {
-    width: 1200
+    width: 800
   },
   row: {
     height: 60
@@ -169,23 +163,33 @@ let CONFIG = {
 };
 
 function parseStep(obj) {
-  console.log(obj.msg, obj.params);
+  // console.log(obj.msg, obj.params);
+  var messenger = document.getElementById("pseudocode-messenger")
+  var pseudomessage = ""
+
   if (obj.msg === 'SPAWN_NODE') {
     var node = findXYPos(obj.params.idx, CONFIG);
     createNode(obj.params.idx + '', node.x, node.y, obj.params.val, 1000);
+    pseudomessage = "Created a Node of value " +obj.params.val
   } else if (obj.msg === 'HIGHLIGHT_NODE') {
     highlightNode(obj.params.idx);
   } else if (obj.msg === 'SPAWN_EDGE') {
+
     var node1 = findXYPos(obj.params.from, CONFIG);
     var node2 = findXYPos(obj.params.to, CONFIG);
     drawEdge(obj.params.from, obj.params.to, node1.x, node1.y, node2.x, node2.y, 500, 100);
+    pseudomessage = "Creating a child Node"
   } else if (obj.msg === 'SELECT_NODE') {
     selectNode(obj.params.idx);
+    pseudomessage = "Selecting Node of value " +obj.params.val
   } else if (obj.msg === 'HIGHLIGHT_EDGE') {
     highlightEdge(obj.params.from, obj.params.to);
   } else if (obj.msg === 'SELECT_EDGE') {
     selectEdge(obj.params.from, obj.params.to);
   }
+
+
+  messenger.innerHTML = pseudomessage
 }
 
 let tree = [];
@@ -197,27 +201,22 @@ let messages = [];
 // insert(tree, 28, messages);
 // console.log("Searching....")
 
-// resetNodes()
-// resetEdges()
+
 // search(tree,28,messages)
 
 // console.log("Inorder....")
-// resetNodes()
-// resetEdges()
+
 
 // inorderTraversal(tree, 0, messages);
-// resetNodes()
-// resetEdges()
+
 
 // console.log("Pre Order....")
 // preorderTraversal(tree, 0, messages);
-// resetNodes()
-// resetEdges()
+
 
 // console.log("Post Order....")
 // postorderTraversal(tree, 0, messages);
-// resetNodes()
-// resetEdges()
+
 
 var FinalMessages = [];
 for (var i = 0; i < messages.length; i++) {
@@ -261,7 +260,7 @@ function myLoop () {
 function searchTree(){
   val = document.getElementById('searchVal').value;
   console.log(val);
-  insert(tree, parseInt(val), messages);
+  search(tree, parseInt(val), messages);
   myLoop()
 }
 

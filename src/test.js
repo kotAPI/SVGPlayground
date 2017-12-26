@@ -30,44 +30,34 @@ function createCircle(x,y,text,duration){
 
 
 
-var animations = [
-					createCircle(20,20,"yo",0),
-				  	createCircle(80,40,"yolo",10),
-				  	createCircle(80,80,"fake",100),
-				  	createCircle(80,120,"doesntwork",100),
-				  	createCircle(80,160,"works",200)
-				 ]
-
-
-
-function animate(index){
-
-        if(index < animations.length - 1){
-            index = index + 1
-            return animations[index]().each("end", animate(index))
-        } 
-        else {
-        	
-            return true
-        }
-
-}
-
-animate()
 
 var Visualization = function(){
 	api = {}
 	api.gameSpeed = 1.0
 
+	////////////////////////////
+	/// Slider functions
+	/// Just give your slider an id of "viz-slider"
+	////////////////////////////
 	api.initSlider = function(){
 		var slider = document.getElementById("viz-slider")
-		slider.addEventListener("input",this.changeGameSpeed)
-		slider.value=0;
+		if(slider){
+			slider.addEventListener("input",this.changeGameSpeed)
+			slider.value=0;
+		}
+		else{
+			console.error("Make sure your slider is present with an id of 'viz-slider'")
+		}
+		
 	}
 	api.changeGameSpeed = function(){
 		var slider = document.getElementById("viz-slider")
 		this.gameSpeed = slider.value/50
+		console.log(this.gameSpeed)
 	}
+	////////////////////////////
+	//  END OF SLIDER FUNCTIONS
+	////////////////////////////
 	api.init = function(){
 		this.initSlider();
 	}

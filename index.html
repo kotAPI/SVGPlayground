@@ -1,49 +1,84 @@
-<!doctype html>
-
-<html lang="en">
-
-<head>
-  <meta charset="utf-8">
-  <script src="https://d3js.org/d3.v4.min.js"></script>
+<html>
+  <head>
+    <title></title>
+     <script src="https://d3js.org/d3.v4.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-promise/3.2.2/es6-promise.min.js"></script>
   <script src="./src/trees.js"></script>
+    <style>
+      svg{
+        width: 800px;
+        height: 380px;
+        margin: auto;
+        box-shadow: 1px 1px 10px rgba(0,0,0,0.5);
+        display: block;
+      }
+      .input-container{
+        padding-top:20px;
+        width:400px;
+        display: inline;
+        float:left;
+        margin: auto;
+        
+        box-sizing: border-box;
+      }
+      .pseudo-container{
+        padding-top:20px;
+        width:400px;
+        display: inline;
+        float:left;
+        margin: auto;
+        
+        box-sizing: border-box;
+      }
+      input{
+        margin-bottom: 10px;
+        width:200px;
+        height: 30px;
 
-  <style>
-    body {
-      margin: 0;
-      position: fixed;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-    }
+      }
+      button{
+        height: 30px;
+        color:white;
+        background-color: black;
+        outline: none;
+        border:0;
+      }
+    </style>
+  </head>
+  <body>
+    <svg id="svg-container">
+        <g id="edge-group"></g>
+      </svg>
+      <div style="width:800px;margin: auto">
+          <div class="input-container">
+              <input type="range" id="speedslider"><span id="speedslider-value">0</span>
+              <input type="text" id="insertVal">
+            <button  onClick="insertIntoTree()">Insert</button>
+            
+            <input id ="searchVal" type="text">
+            <button  onClick="searchTree()">Search</button>
 
-    svg {
-      width: 90%;
-      height: 90%;
-      border: 1px solid black;
-      display: block;
-      margin: auto;
-    }
+          </div>
+          <div class="pseudo-container" id="pseudocode-messenger">
+            
+          </div>
+      </div>
+      
 
-    text {
-      fill: white;
-    }
-  </style>
-</head>
-
-<body>
-  <svg id="svg-container">
-    <g id="edge-group"></g>
-  </svg>
-
-  <input type="text" id="insertVal">
-  <button  onClick="insertIntoTree()">Insert</button>
-
-  <input id ="searchVal" type="text">
-  <button  onClick="searchTree()">Search</button>
-
+  
   <script src="./src/amazingLibraryName.js"></script>
-</body>
+  <script>
+    var slider = document.getElementById("speedslider")
+    var slidertext = document.getElementById("speedslider-value")
+    slider.value = 100;
+    CONFIGSVG.gameSpeed = slider.value/50
+    slidertext.innerHTML = CONFIGSVG.gameSpeed
 
+    slider.addEventListener("input",()=>{
+      CONFIGSVG.gameSpeed = slider.value/50
+      slidertext.innerHTML = CONFIGSVG.gameSpeed
+    })
+
+  </script>
+  </body>
 </html>
