@@ -56,7 +56,8 @@ var Visualization = function(){
 				api.gameSpeed = 2 - slider.value/50
 			}
 			else{
-				slider.value = 100
+				slider.value = 50
+				api.gameSpeed = 2 - slider.value/50
 			}
 		}
 		else{
