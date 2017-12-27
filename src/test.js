@@ -76,7 +76,10 @@ var Visualization = function(){
 	////////////////////////////
 	api.parseMessage = function(obj){
 		
-		console.log(obj)
+		
+		if(obj.msg === "NODE_NOT_FOUND"){
+			alert(obj.params.val + " Not found!")
+		}
 		if(obj.msg === 'SPAWN_NODE'){
 			
 			var node = findXYPos(obj.params.idx, CONFIG);
@@ -124,10 +127,10 @@ var Visualization = function(){
 			
 		}
 		api.top = counter
-		console.log(counter)
+	
 	}
 	api.resetEdges = function(){
-		d3.selectAll("circle").attr("fill",vizsettings.NodeColor)
+		d3.selectAll("circle").style("fill",vizsettings.NodeColor)
 		d3.selectAll("line").attr("stroke","orange")
 	}
 	api.createNode = function(x,y,text,delay,id){
@@ -137,11 +140,15 @@ var Visualization = function(){
 				  .attr("cx",x)
 				  .attr("cy",y)
 				  .attr("r",0)
+				  .attr("fill","red")
 				  .transition()
 				  .delay(delay)
 				  .attr("r",20)
 				  .duration(1000* api.gameSpeed)
 				  .style("fill",vizsettings.NodeColor)
+				  .on("end",()=>{
+				  	api.resetEdges()
+				  })
 
 				d3.select("#layer-2").select("#group"+text).append('text')
 			      .attr('id', 'text' + text)
@@ -156,7 +163,7 @@ var Visualization = function(){
 						  .duration(1000 * api.gameSpeed)
 						  .style("fill","black")
 
-				api.resetEdges()
+				
 	}
 	api.createEdge = function(fromid, toid, x1, y1, x2, y2, delay){
 		 d3
@@ -182,14 +189,25 @@ var Visualization = function(){
       .select('#layer-1')
       .selectAll('#edge' + fromid + '-' + toid)
       .select('line')
-      .attr("stroke-width",6)
-      .attr("stroke","green")
+      .attr('stroke-width', 2)
+      .style('stroke', 'black')
       .transition()
       .duration(1000*api.gameSpeed)
       .delay(delay)
-      .attr('stroke-width', 2)
-      .style('stroke', 'black')
+      .attr("stroke-width",6)
+      .attr("stroke",vizsettings.NodeColor)
 
+	}
+	api.checkIfNodeExists = function(value){
+		for(var i=0;i<api.messages.length;i++){
+			for(var j=0;j<api.messages[i].length;j++){
+				if(messages[i][j].msg === "SPAWN_NODE"){
+					if(messages[i][j].params.val == value){
+						return true
+					}
+				}
+			}
+		}
 	}
 	api.selectEdge = function(fromid,toid,delay){
 		 d3
@@ -208,9 +226,9 @@ var Visualization = function(){
 	}
 	api.selectNode = function(id,delay){
 
-		 d3.select("#circle"+id).style("fill","red")
+		 d3.select("#circle"+id).style("fill",vizsettings.NodeColor)
 		 .transition()
-		 .style("fill",vizsettings.NodeColor)
+		 .style("fill","red")
 		 .duration(1000*api.gameSpeed)
 		 .delay(delay)
 	      
@@ -251,13 +269,21 @@ var isANumber = function(number){
 }
 
 var insertIntoTree = function(){
+	
+	viz.resetEdges()
 	var a  = document.getElementById("insertVal").value
 	a = parseInt(a)
 
 	if(isANumber(a)){
-		insert(tree,a,messages)	
-		viz.messages = messages
-		viz.animate()
+		if(viz.checkIfNodeExists(a)){
+			alert(a +" already exists")
+		}
+		else{
+			insert(tree,a,messages)	
+			viz.messages = messages
+			viz.animate()
+		}
+		
 	}
 	else{
 		console.error("Please enter a valid number")
@@ -266,13 +292,17 @@ var insertIntoTree = function(){
 }
 
 var searchTree = function(){
+	viz.resetEdges()
 	var val = document.getElementById("searchVal").value
 	val = parseInt(val)
 	if(isANumber(val)){
-		search(tree,parseInt(val),messages)
-		console.log(messages)
-		viz.messages = messages
-		viz.animate();
+		
+
+			search(tree,parseInt(val),messages)
+			viz.messages = messages
+			viz.animate();
+
+		
 	}
 	else{
 		console.error("Please enter a valid number")
