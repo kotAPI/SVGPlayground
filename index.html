@@ -40,7 +40,7 @@
       }
       .docker-toggler{
         padding:4px 20px 10px 20px;
-        top:0px;
+        bottom:0px;
         position: fixed;
         right:0px;
         background-color: green;
@@ -101,22 +101,30 @@
               <p>
                 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
               </p>
-
+              <button id="dockerbutton">Hide instructions</button>
           </div>
         </div>
       </div>
-		  <div id="dockerbutton" class="docker-toggler">
+		  <button id="dockerbutton2" class="docker-toggler">
         Click Here for Instructions
-      </div>
+      </button>
 
 
 		
 		<script src="src/test.js"></script>
     <script>
+
       var dockerbutton = document.getElementById("dockerbutton")
+      var dockerbutton2 = document.getElementById("dockerbutton2")
+
+      var docker = document.getElementById("dockermain");
+      docker.style.right = "-800px"
+
       dockerbutton.addEventListener("click",()=>{
+        
         var docker = document.getElementById("dockermain");
         var mode = docker.style.right
+        console.log(mode)
         if(mode == "-800px"){
           docker.style.right="0px"
         }
@@ -124,6 +132,20 @@
           docker.style.right="-800px"
         }
       })
+      dockerbutton2.addEventListener("click",()=>{
+        
+        var docker = document.getElementById("dockermain");
+        var mode = docker.style.right
+         console.log(mode)
+        if(mode == "-800px"){
+          docker.style.right="0px"
+        }
+        else{
+          docker.style.right="-800px"
+        }
+      })
+
+   
     </script>
 	</body>
 </html>
