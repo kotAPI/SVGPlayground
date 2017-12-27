@@ -76,40 +76,44 @@ var Visualization = function(){
 	//  END OF SLIDER FUNCTIONS
 	////////////////////////////
 	api.parseMessage = function(obj){
+		console.log(obj)
 		
-		
-		if(obj.msg === "NODE_NOT_FOUND"){
+		if(obj.msg!==undefined){
+			
+			if(obj.msg === "NODE_NOT_FOUND"){
 			setTimeout(()=>{
 				api.messageBox("<b>"+obj.params.val +"</b>" +" Not found!")
 			},api.delayCounter)
 			
+			}
+			if(obj.msg === 'SPAWN_NODE'){
+				
+				var node = findXYPos(obj.params.idx, CONFIG);
+				api.createNode(node.x,node.y,obj.params.val,api.delayCounter,obj.params.idx)
+
+
+			}
+			else if (obj.msg === 'SPAWN_EDGE') {
+
+			    var node1 = findXYPos(obj.params.from, CONFIG);
+			    var node2 = findXYPos(obj.params.to, CONFIG);
+			    api.createEdge(obj.params.from, obj.params.to, node1.x, node1.y, node2.x, node2.y,api.delayCounter);
+			}
+			else if (obj.msg === 'SELECT_NODE') {
+
+		    	api.selectNode(obj.params.idx,api.delayCounter);
+		  	}
+		  	else if (obj.msg === 'HIGHLIGHT_NODE') {
+			    api.selectNode(obj.params.idx,api.delayCounter);
+			  }
+			else if (obj.msg === 'HIGHLIGHT_EDGE') {
+			    api.highlightEdge(obj.params.from, obj.params.to,api.delayCounter);
+			  }
+			 else if (obj.msg === 'SELECT_EDGE') {
+			    api.selectEdge(obj.params.from, obj.params.to,api.delayCounter);
+			  }
 		}
-		if(obj.msg === 'SPAWN_NODE'){
-			
-			var node = findXYPos(obj.params.idx, CONFIG);
-			api.createNode(node.x,node.y,obj.params.val,api.delayCounter,obj.params.idx)
-
-
-		}
-		else if (obj.msg === 'SPAWN_EDGE') {
-
-		    var node1 = findXYPos(obj.params.from, CONFIG);
-		    var node2 = findXYPos(obj.params.to, CONFIG);
-		    api.createEdge(obj.params.from, obj.params.to, node1.x, node1.y, node2.x, node2.y,api.delayCounter);
-		}
-		else if (obj.msg === 'SELECT_NODE') {
-
-	    	api.selectNode(obj.params.idx,api.delayCounter);
-	  	}
-	  	else if (obj.msg === 'HIGHLIGHT_NODE') {
-		    api.selectNode(obj.params.idx,api.delayCounter);
-		  }
-		else if (obj.msg === 'HIGHLIGHT_EDGE') {
-		    api.highlightEdge(obj.params.from, obj.params.to,api.delayCounter);
-		  }
-		 else if (obj.msg === 'SELECT_EDGE') {
-		    api.selectEdge(obj.params.from, obj.params.to,api.delayCounter);
-		  }
+		
 	}
 	api.animate = function(){
 		//document.getElementById("layer-1").innerHTML = ""
@@ -250,9 +254,9 @@ var Visualization = function(){
       .duration(1000*api.gameSpeed)
       .delay(delay)
 	}
-	api.selectNode = function(id,delay){
+	api.selectNode = function(value,delay){
 
-		 d3.select("#circle"+id).style("fill",vizsettings.NodeColor)
+		 d3.select("#circle"+value).style("fill",vizsettings.NodeColor)
 		 .transition()
 		 .style("fill","red")
 		 .duration(1000*api.gameSpeed)
@@ -334,4 +338,47 @@ var searchTree = function(){
 		console.error("Please enter a valid number")
 	}
 	
+}
+
+insert(tree,50,messages)
+insert(tree,10,messages)
+insert(tree,8,messages)
+insert(tree,5,messages)
+insert(tree,6,messages)
+insert(tree,45,messages)
+insert(tree,55,messages)
+insert(tree,51,messages)
+insert(tree,70,messages)
+insert(tree,69,messages)
+insert(tree,65,messages)
+insert(tree,75,messages)
+insert(tree,95,messages)
+insert(tree,40,messages)
+insert(tree,49,messages)
+insert(tree,53,messages)
+insert(tree,42,messages)
+insert(tree,36,messages)
+
+viz.animate()
+
+var inorderTree = function(){
+	viz.resetEdges()
+	inorderTraversal(tree,0,messages)
+	viz.messages = messages
+	viz.animate()
+	
+}
+
+var preorderTree = function(){
+	viz.resetEdges()
+	preorderTraversal(tree,0,messages)
+	viz.messages = messages
+	viz.animate()
+}
+
+var postorderTree = function(){
+	viz.resetEdges()
+	postorderTraversal(tree,0,messages)
+	viz.messages = messages
+	viz.animate()
 }
