@@ -2,7 +2,7 @@
 	<head></head>
 	 <script src="https://d3js.org/d3.v4.min.js"></script>
 	 <script src="src/trees.js"></script>
-   <link rel="stylesheet" href="http://www.simplegrid.io/grid/simple-grid.css">
+   
 	  <style>
       svg{
         width: 800px;
@@ -63,26 +63,26 @@
     </style>
 	<body>
 
-    <div class="container">
-        <div class="row">
-          <div class="col-12">
+    <div>
+        <div >
+          <div >
             <svg id="svg-container" width="1200" height="500">
                 <g id="layer-1"></g>
                 <g id="layer-2"></g>
               </svg>
 
-              <div class="container">
+              <div style="width: 800px;margin: auto;">
                 <div style="width:50%;float:left">
-                  <div class="col-12">
+                  <div>
                     <span  class="sliderlabel">Slow</span>
                     <input type="range" id="viz-slider">
                     <span  class="sliderlabel">Fast</span>  
                   </div>
-                  <div class="col-12">
+                  <div >
                     <input type="text" id="insertVal" onfocus="this.value=''">
                     <button id="insertbutton" onClick="insertIntoTree()">Insert</button>
                   </div>
-                  <div class="col-12">
+                  <div >
                     <input id ="searchVal" type="text" onfocus="this.value=''">
                     <button id="searchbutton" onClick="searchTree()" >Search</button>
                   </div>
@@ -91,7 +91,7 @@
 
                 <div style="width:50%;float:left">
                 <div class="messagebox">
-                  
+                  messages
                   <div id="messages">
                    
                   </div>
@@ -104,9 +104,9 @@
         </div>
       </div>
 
-      <div class="docker container" id="dockermain">
-        <div class="row">
-          <div class="col-12">
+      <div class="docker" id="dockermain">
+        <div >
+          <div >
 
               <h4>Some random text</h4>
               <p>
