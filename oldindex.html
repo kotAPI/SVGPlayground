@@ -1,8 +1,10 @@
 <html>
-	<head>Test</head>
-	 <script src="https://d3js.org/d3.v4.min.js"></script>
-	 <script src="src/trees.js"></script>
-	  <style>
+  <head>
+    <title></title>
+     <script src="https://d3js.org/d3.v4.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-promise/3.2.2/es6-promise.min.js"></script>
+  <script src="./src/trees.js"></script>
+    <style>
       svg{
         width: 800px;
         height: 380px;
@@ -45,16 +47,14 @@
         color:black;
       }
     </style>
-	<body>
-		 <svg id="svg-container" width="1200" height="500">
-		    <g id="layer-1"></g>
-		    <g id="layer-2"></g>
-		  </svg>
-		<button id="viz-animator">Animate!</button>
-
-
-		<div class="input-container">
-              <input type="range" id="viz-slider"><span id="speedslider-value">0</span>
+  </head>
+  <body>
+    <svg id="svg-container">
+        <g id="edge-group"></g>
+      </svg>
+      <div style="width:800px;margin: auto">
+          <div class="input-container">
+              <input type="range" id="speedslider"><span id="speedslider-value">0</span>
               <input type="text" id="insertVal">
             <button id="insertbutton" onClick="insertIntoTree()">Insert</button>
             
@@ -62,9 +62,26 @@
             <button id="searchbutton" onClick="searchTree()" >Search</button>
 
           </div>
+          <div class="pseudo-container" id="pseudocode-messenger">
+            
+          </div>
+      </div>
+      
 
+  
+  <script src="./src/amazingLibraryName.js"></script>
+  <script>
+    var slider = document.getElementById("speedslider")
+    var slidertext = document.getElementById("speedslider-value")
+    slider.value = 100;
+    CONFIGSVG.gameSpeed = slider.value/50
+    slidertext.innerHTML = CONFIGSVG.gameSpeed
 
-		
-		<script src="src/test.js"></script>
-	</body>
+    slider.addEventListener("input",()=>{
+      CONFIGSVG.gameSpeed = slider.value/50
+      slidertext.innerHTML = CONFIGSVG.gameSpeed
+    })
+
+  </script>
+  </body>
 </html>

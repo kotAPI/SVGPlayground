@@ -172,3 +172,25 @@ let postorderTraversal = (tree, head, messages) => {
 // inorderTraversal(tree, 0, inorder_messages);
 // preorderTraversal(tree, 0, preorder_messages);
 // postorderTraversal(tree, 0, postorder_messages);
+
+
+/// Helper Function
+const findXYPos = (nodeIdx, config) => {
+  let level = 0;
+  for (; Math.pow(2, level) < nodeIdx + 2; level++);
+  return {
+    y: (level - 0.5) * config.row.height,
+    x:
+      ((nodeIdx + 2 - Math.pow(2, level - 1)) / Math.pow(2, level - 1) - Math.pow(0.5, level)) *
+      config.canvas.width
+  };
+};
+
+let CONFIG = {
+  canvas: {
+    width: 800
+  },
+  row: {
+    height: 60
+  }
+};

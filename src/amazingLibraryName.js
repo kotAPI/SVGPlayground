@@ -178,10 +178,8 @@ function parseStep(obj) {
     var node1 = findXYPos(obj.params.from, CONFIG);
     var node2 = findXYPos(obj.params.to, CONFIG);
     drawEdge(obj.params.from, obj.params.to, node1.x, node1.y, node2.x, node2.y, 500, 100);
-    pseudomessage = "Creating a child Node"
   } else if (obj.msg === 'SELECT_NODE') {
     selectNode(obj.params.idx);
-    pseudomessage = "Selecting Node of value " +obj.params.val
   } else if (obj.msg === 'HIGHLIGHT_EDGE') {
     highlightEdge(obj.params.from, obj.params.to);
   } else if (obj.msg === 'SELECT_EDGE') {
@@ -241,20 +239,37 @@ for (var i = 0; i < messages.length; i++) {
 
 var i = 0;                    
 var j = 0
+var animating = false;
+
 function myLoop () {          
    setTimeout(function () {    
       var message = messages[i];
       for(var k=0;k<message.length;k++){
         //console.log(message[])
         parseStep(message[k])
+        animating=true
+        toggleButtons()
       } 
       i++; 
       if (i < messages.length) {            
          myLoop();             
       }                        
    }, 1000)
+   animating = false
+   toggleButtons()
 }
 
+function toggleButtons(){
+  if(animating===false){
+    document.getElementById("insertbutton").disabled = true
+    document.getElementById("searchbutton").disabled = true
+
+  }
+  else{
+    document.getElementById("insertbutton").disabled = false
+    document.getElementById("searchbutton").disabled = false
+  }
+}
 // myLoop()
 
 function searchTree(){
