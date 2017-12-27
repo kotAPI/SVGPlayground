@@ -6,30 +6,6 @@ var vizsettings = {
 
 var globalDelay = 0;
 
-// function createCircle(x,y,text,duration){
-// 	var duration = duration/vizsettings.speed
-// 	globalDelay += duration
-
-// 	g = d3.select("g").attr("id",text).append("circle").attr("cx",x).attr("cy",y).attr("r",0).style("fill","red")
-// 	.transition().delay(globalDelay).duration(duration).attr("r",20).on("end",()=>{
-
-// 	})
-
-// 	g = d3.select("#"+text).append("text").attr('id', 'text' + text)
-// 	  .style("fill","white")
-//       .attr('x', x)
-//       .attr('y', y)
-//       .text(text + '')
-//       .transition()
-//       .attr('text-anchor', 'middle')
-//       .attr('dominant-baseline', 'central')
-//       .delay(globalDelay).duration(duration)
-//       .style("fill","black")
-
-//      return g
-// }
-
-
 
 
 var Visualization = function(){
@@ -126,6 +102,7 @@ var Visualization = function(){
 					counter ++;
 					if(counter>api.top){
 						api.delayCounter += 1000*api.gameSpeed
+
 						api.parseMessage(api.messages[i][j])
 									
 					}
