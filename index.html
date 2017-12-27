@@ -2,7 +2,7 @@
 	<head></head>
 	 <script src="https://d3js.org/d3.v4.min.js"></script>
 	 <script src="src/trees.js"></script>
-   
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 	  <style>
       svg{
         width: 800px;
@@ -21,8 +21,8 @@
       button{
         padding: 0px 10px;
             height: 30px;
-    color: black;
-    background-color: #43da0f;
+    color: white;
+    background-color: #03A9F4;
     outline: none;
     border: 0;
     
@@ -38,41 +38,58 @@
         cursor: pointer;
       }
       button:active{
-        background-color: green;
+        background-color: #2d7fa5;
+      }
+      #dockerbutton2{
+            background-color: #ff9800;
+    height: 96px;
+    border-radius: 3px;
+    font-size: 2em;
+      }
+      #dockerbutton2:active{
+        background-color: #d47f03;
       }
       .docker{
         padding: 40px;
-        top:0px;
-        right:-800px;
-        width:800px;
+    height: 100%;
+    top: 0px;
+    right: -800px;
+    width: 800px;
+    border: 1px solid black;
+    position: fixed;
+    background-color: white;
+    box-sizing: border-box;
+    transition: all 0.4s;
+    overflow-y: scroll;
         
-        border:1px solid black;
-        position: fixed;
-        background-color: white;
-        box-sizing: border-box;
-        transition: all 0.4s;
-        overflow-y: scroll; 
       }
       .docker-toggler{
         padding:4px 20px 10px 20px;
-        bottom:0px;
+        bottom:80px;
         position: fixed;
-        right:0px;
+        right:10px;
         background-color: green;
         color:white;
         cursor: default;
       }
       .docker>h1,h2,h3,h4,h5,h6{
+        font-family: 'Lato', sans-serif;
         padding:5px;
         margin:4px;
       }
       .messagebox{
+        font-family: 'Lato', sans-serif;
         padding:10px;
         box-sizing: border-box;
       }
       .sliderlabel{
+        font-family: 'Lato', sans-serif;
             position: relative;
             top: -8px;
+      }
+      #docker-toggle-button{
+        transition: all 0.4s;
+        transform: rotate(0deg);
       }
       pre{
         padding:10px 0px;
@@ -156,13 +173,14 @@
                       search(key, root.right)
                }
               </pre>
- 
-              <button id="dockerbutton">Hide instructions</button>
+     
+
+              
           </div>
         </div>
       </div>
 		  <button id="dockerbutton2" class="docker-toggler">
-        Click Here for Instructions
+        <div id="docker-toggle-button"><</div>
       </button>
 
 
@@ -170,34 +188,31 @@
 		<script src="src/test.js"></script>
     <script>
 
-      var dockerbutton = document.getElementById("dockerbutton")
+      
       var dockerbutton2 = document.getElementById("dockerbutton2")
 
-      var docker = document.getElementById("dockermain");
-      docker.style.right = "-800px"
+     
 
-      dockerbutton.addEventListener("click",()=>{
-        
-        var docker = document.getElementById("dockermain");
-        var mode = docker.style.right
-        console.log(mode)
-        if(mode == "-800px"){
-          docker.style.right="0px"
-        }
-        else{
-          docker.style.right="-800px"
-        }
-      })
+
+      var docker = document.getElementById("dockermain");
+      var dockerbuttontoggler = document.getElementById("docker-toggle-button")
+      docker.style.right = "-800px"
+      dockerbuttontoggler.style.transform = "rotate(0deg)"
+     
       dockerbutton2.addEventListener("click",()=>{
         
         var docker = document.getElementById("dockermain");
+         
+
         var mode = docker.style.right
          console.log(mode)
         if(mode == "-800px"){
           docker.style.right="0px"
+          dockerbuttontoggler.style.transform = "rotate(180deg)"
         }
         else{
           docker.style.right="-800px"
+          dockerbuttontoggler.style.transform = "rotate(0deg)"
         }
       })
 
