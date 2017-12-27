@@ -1,12 +1,11 @@
 <html>
-	<head>Test</head>
+	<head></head>
 	 <script src="https://d3js.org/d3.v4.min.js"></script>
 	 <script src="src/trees.js"></script>
 	  <style>
       svg{
         width: 800px;
         height: 380px;
-        margin: auto;
         box-shadow: 1px 1px 10px rgba(0,0,0,0.5);
         display: block;
       }
@@ -44,21 +43,45 @@
       button:disabled{
         color:black;
       }
+      .top-container{
+        display: flex;
+      }
+      .messagebox{
+        width: 400px;
+        height: 300px;
+        display: block;
+        border:1px solid rgba(0,0,0,0.1);
+        margin: auto;
+        box-sizing: border-box;
+        padding:40px;
+        font-family: sans-serif;
+      }
+      b{
+        color:orange;
+        font-size: 2em;
+
+      }
     </style>
 	<body>
-		 <svg id="svg-container" width="1200" height="500">
-		    <g id="layer-1"></g>
-		    <g id="layer-2"></g>
-		  </svg>
-		<button id="viz-animator">Animate!</button>
+    <div class="top-container">
+      <svg id="svg-container" width="1200" height="500">
+        <g id="layer-1"></g>
+        <g id="layer-2"></g>
+      </svg>
+      <div class="messagebox">
+        <div id="messages"></div>
+      </div>
+    </div>
+		 
+
 
 
 		<div class="input-container">
-              <input type="range" id="viz-slider"><span id="speedslider-value">0</span>
-              <input type="text" id="insertVal">
+              <input type="range" id="viz-slider">
+              <input type="text" id="insertVal" onfocus="this.value=''">
             <button id="insertbutton" onClick="insertIntoTree()">Insert</button>
             
-            <input id ="searchVal" type="text">
+            <input id ="searchVal" type="text" onfocus="this.value=''">
             <button id="searchbutton" onClick="searchTree()" >Search</button>
 
           </div>

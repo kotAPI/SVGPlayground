@@ -38,7 +38,7 @@ var Visualization = function(){
 	api.delayCounter =0
 	api.gameSpeed = 1.0
 	api.messages = []
-
+	api.animating = false;
 	api.top = 0;
 
 
@@ -78,7 +78,10 @@ var Visualization = function(){
 		
 		
 		if(obj.msg === "NODE_NOT_FOUND"){
-			alert(obj.params.val + " Not found!")
+			setTimeout(()=>{
+				api.messageBox("<b>"+obj.params.val +"</b>" +" Not found!")
+			},api.delayCounter)
+			
 		}
 		if(obj.msg === 'SPAWN_NODE'){
 			
@@ -111,6 +114,8 @@ var Visualization = function(){
 		//document.getElementById("layer-1").innerHTML = ""
 		//document.getElementById("layer-2").innerHTML = ""
 		var counter = 0;
+		api.animating = true
+		api.toggleButtons()
 		for(var i=0;i<api.messages.length;i++){
 			for(var j=0;j<api.messages[i].length;j++){
 					counter ++;
@@ -126,12 +131,32 @@ var Visualization = function(){
 			}
 			
 		}
+		setTimeout(()=>{
+			api.animating = false
+			api.toggleButtons()
+		},api.delayCounter)
+
 		api.top = counter
 	
 	}
+	api.toggleButtons = function(){
+		if(api.animating){
+			document.getElementById("insertbutton").disabled = true
+			document.getElementById("searchbutton").disabled = true
+
+		}
+		else{
+			document.getElementById("insertbutton").disabled = false
+			document.getElementById("searchbutton").disabled = false
+		}
+	}
+	api.messageBox = function(message){
+		var messagebox = document.getElementById("messages")
+		messagebox.innerHTML = message
+	}
 	api.resetEdges = function(){
 		d3.selectAll("circle").style("fill",vizsettings.NodeColor)
-		d3.selectAll("line").attr("stroke","orange")
+		d3.selectAll("line").attr("stroke","orange").attr("stroke-width",2)
 	}
 	api.createNode = function(x,y,text,delay,id){
 		var g = d3.select("#layer-2").append("g").attr("id","group"+text)
@@ -276,7 +301,7 @@ var insertIntoTree = function(){
 
 	if(isANumber(a)){
 		if(viz.checkIfNodeExists(a)){
-			alert(a +" already exists")
+			viz.messageBox("<b>"+a+"</b>" +" Already Exists! ")
 		}
 		else{
 			insert(tree,a,messages)	
