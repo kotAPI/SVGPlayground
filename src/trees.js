@@ -88,7 +88,7 @@ let inorderTraversal = (tree, head, messages) => {
 	}
 	if (tree[head] !== undefined) {
 		console.log(tree[head]);
-		messages.push([ [ highlightNodeMessage(head), selectNodeMessage(head), printNodeMessage(tree[head]) ] ]);
+		messages.push([ highlightNodeMessage(head), selectNodeMessage(head), printNodeMessage(tree[head]) ]);
 	}
 	if (tree[head * 2 + 2] !== undefined) {
 		messages.push([ highlightEdgeMessage(head, head * 2 + 2), selectEdgeMessage(head, head * 2 + 2) ]);
@@ -99,7 +99,7 @@ let inorderTraversal = (tree, head, messages) => {
 let preorderTraversal = (tree, head, messages) => {
 	if (tree[head] !== undefined) {
 		console.log(tree[head]);
-		messages.push([ [ highlightNodeMessage(head), selectNodeMessage(head), printNodeMessage(tree[head]) ] ]);
+		messages.push([ highlightNodeMessage(head), selectNodeMessage(head), printNodeMessage(tree[head]) ]);
 	}
 	if (tree[head * 2 + 1] !== undefined) {
 		messages.push([ highlightEdgeMessage(head, head * 2 + 1), selectEdgeMessage(head, head * 2 + 1) ]);
@@ -122,7 +122,7 @@ let postorderTraversal = (tree, head, messages) => {
 	}
 	if (tree[head] !== undefined) {
 		console.log(tree[head]);
-		messages.push([ [ highlightNodeMessage(head), selectNodeMessage(head), printNodeMessage(tree[head]) ] ]);
+		messages.push([ highlightNodeMessage(head), selectNodeMessage(head), printNodeMessage(tree[head]) ]);
 	}
 };
 
