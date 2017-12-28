@@ -16,7 +16,7 @@ var Visualization = function(){
 	api.messages = []
 	api.animating = false;
 	api.top = 0;
-
+	api.traversalArr = []
 
 	////////////////////////////
 	/// Slider functions
@@ -56,8 +56,20 @@ var Visualization = function(){
 		
 		if(obj.msg!==undefined){
 			
+			if(obj.msg ==="PRINT_NODE"){
+				
+				setTimeout(()=>{
+					api.traversalArr.push(obj.params.val)
+					api.messageBox(api.traversalArr.map((a,i)=>"<div class='node'>"+api.traversalArr[i]+" </div>")
+
+					)
+				},api.delayCounter)
+				
+			}
+
 			if(obj.msg === "NODE_NOT_FOUND"){
 			setTimeout(()=>{
+
 				api.messageBox("<b>"+obj.params.val +"</b>" +" Not found!")
 			},api.delayCounter)
 			
@@ -137,6 +149,7 @@ var Visualization = function(){
 		messagebox.innerHTML = message
 	}
 	api.resetEdges = function(){
+		api.traversalArr = []
 		d3.selectAll("circle").style("fill",vizsettings.NodeColor)
 		d3.selectAll("line").attr("stroke","orange").attr("stroke-width",2)
 	}
