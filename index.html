@@ -132,6 +132,10 @@
                     <input id ="searchVal" type="text" onfocus="this.value=''">
                     <button id="searchbutton" onClick="api.messageBox('');searchTree();" >Search</button>
                   </div>
+                  <div >
+                    <input id ="removeVal" type="text" onfocus="this.value=''">
+                    <button id="removeButton" onClick="api.messageBox('');deleteNode()" >Remove</button>
+                  </div>
                   <div>
                     <button id="inorderbutton" onClick="api.messageBox('');inorderTree()">Inorder</button>
                     <button id="preorderbutton" onClick="api.messageBox('');preorderTree()">Preorder</button>

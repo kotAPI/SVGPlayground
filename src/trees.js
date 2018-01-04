@@ -126,26 +126,26 @@ let postorderTraversal = (tree, head, messages) => {
 	}
 };
 
-// let remove = (tree, v) => {
-// 	head = 0;
-// 	while (tree[head] !== undefined && tree[head] !== v) {
-// 		head = tree[head] > v ? head * 2 + 2 : head * 2 + 1;
-// 	}
+let remove = (tree, v) => {
+	head = 0;
+	while (tree[head] !== undefined && tree[head] !== v) {
+		head = tree[head] > v ? head * 2 + 2 : head * 2 + 1;
+	}
 
-// 	if (tree[head * 2 + 1] === undefined && tree[head * 2 + 2] === undefined) {
-// 		tree[head] = undefined;
-// 	}
-// 	// else if (tree[]) {
+	if (tree[head * 2 + 1] === undefined && tree[head * 2 + 2] === undefined) {
+		tree[head] = undefined;
+	}
+	// else if (tree[]) {
 
-// 	// }
-// };
+	// }
+};
 
-// let moveSubtreeUp = (tree, idx) => {
-//   if (tree[idx] === undefined || tree[~~(idx/2)] !== undefined) return
-// 	tree[newIdx] = tree[oldIdx];
-// 	moveSubtree(tree, oldIdx * 2 + 1, newIdx * 2 + 1);
-// 	moveSubtree(tree, oldIdx * 2 + 2, newIdx * 2 + 2);
-// };
+let moveSubtreeUp = (tree, idx) => {
+  if (tree[idx] === undefined || tree[~~(idx/2)] !== undefined) return
+	tree[newIdx] = tree[oldIdx];
+	moveSubtree(tree, oldIdx * 2 + 1, newIdx * 2 + 1);
+	moveSubtree(tree, oldIdx * 2 + 2, newIdx * 2 + 2);
+};
 
 
 ////////////////

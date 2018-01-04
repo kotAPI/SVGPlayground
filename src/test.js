@@ -254,6 +254,184 @@ var Visualization = function(){
 	      
 
 	}
+	api.deleteNode = function(value){
+		//case 1
+
+		// d3.select("#group"+value)
+		//  .style("fill",vizsettings.NodeColor)
+		//  .transition()
+		//  .style("fill","black")
+		//  .duration(1000)
+		//  .remove()
+
+		// d3.select("#circle"+"6").style("fill",vizsettings.NodeColor)
+		//  .transition()
+		//  .style("fill","black")
+		//  .duration(1000)
+		//  .remove()
+
+		// d3.select("#edge2-6")
+		//  .select("line")
+		//  .transition()
+		//  .style("stroke-width",1)
+		//  .attr("x2",600).attr("y2",90)
+		//  .duration(2000)
+		
+
+
+
+		//case 2
+
+		// d3.select("#group"+value)
+		//  .style("fill",vizsettings.NodeColor)
+		//  .transition()
+		//  .style("fill","black")
+		//  .duration(1000)
+		//  .remove()
+
+		// d3.select("#circle"+"6").style("fill",vizsettings.NodeColor)
+		//  .transition()
+		//  .style("fill","black")
+		//  .duration(1000)
+		//  .remove()
+
+		//  d3.select("#group"+"85").style("fill",vizsettings.NodeColor)
+		//  .select("circle")
+		//  .transition()
+		//  .attr("cx",700).attr("cy",150)
+		//  .duration(2000)
+
+		//   d3.select("#group"+"85").style("fill",vizsettings.NodeColor)
+		//  .select("text")
+		//  .transition()
+		//  .attr("x",700).attr("y",150)
+		//  .duration(2000)
+		 
+
+		// d3.select("#edge14-29")
+		//  .select("line")
+		//  .transition()
+		//  .style("stroke-width",2)
+		//  .attr("x2",750).attr("y2",210)
+		//  .duration(1000)
+
+		//  d3.select("#edge2-6")
+		//  .select("line")
+		//  .transition()
+		//  .style("stroke-width",2)
+		//  .attr("x2",600).attr("y2",90)
+		//  .duration(1000)
+		//  .transition()
+		//  .attr("x1",700).attr("y1",150)
+		//  .duration(1000)
+
+
+		//   d3.select("#edge6-13")
+		//  .select("line")
+		//  .transition()
+		//  .style("stroke-width",2)
+		//  .attr("x1",650).attr("y1",210)
+		//  .duration(1000)
+		//  .transition()
+		//  .attr("x1",700).attr("y1",150)
+		//  .duration(1000)
+
+		//   d3.select("#edge6-14")
+		//  .select("line")
+		//  .transition()
+		//  .style("stroke-width",2)
+		//  .attr("x1",750).attr("y1",210)
+		//  .duration(1000)
+		//  .transition()
+		//  .attr("x1",700).attr("y1",150)
+		//  .duration(1000)
+
+
+		// case 3
+		d3.select("#edge0-2").select("line").transition().attr("x2",400).attr("y2",30).duration(500)
+		.transition().attr("x2",1000).attr("y2",10000)
+
+
+
+		d3.select("#edge2-6").select("line").transition().attr("x2",600).attr("y2",90).duration(500)
+		d3.select("#edge6-14").select("line").transition().attr("x2",700).attr("y2",150).duration(500)
+		d3.select("#edge0-2").select("line").transition().attr("x2",400).attr("y2",30).duration(500)
+
+
+
+
+		d3.select("#group"+"60")
+		 .style("fill",vizsettings.NodeColor)
+		 .transition()
+		 .style("fill","black")
+		 .duration(500)
+		 .remove()
+
+		d3.select("#circle"+"3").style("fill",vizsettings.NodeColor)
+		 .transition()
+		 .style("fill","black")
+		 .duration(1000)
+		 .remove()
+
+		
+		
+
+		 d3.select("#group80")
+		   .select("circle")
+		   .transition()
+		   .attr("cx",600)
+		   .attr("cy",90)
+		   .duration(1000)
+
+		 d3.select("#group80")
+		   .select("text")
+		   .transition()
+		   .attr("x",600)
+		   .attr("y",90)
+		   .duration(1000)
+		   ////////////////////////////////
+		d3.select("#group90")
+		   .select("circle")
+		   .transition()
+		   .attr("cx",700)
+		   .attr("cy",150)
+		   .duration(1000)
+
+		 d3.select("#group90")
+		   .select("text")
+		   .transition()
+		   .attr("x",700)
+		   .attr("y",150)
+		   .duration(1000)
+		 ///////////////////////////////////
+		   ////////////////////////////////
+		d3.select("#group100")
+		   .select("circle")
+		   .transition()
+		   .attr("cx",750)
+		   .attr("cy",210)
+		   .duration(1000)
+
+		 d3.select("#group100")
+		   .select("text")
+		   .transition()
+		   .attr("x",750)
+		   .attr("y",210)
+		   .duration(1000)
+
+		d3.select("#edge14-30").select("line")
+		.remove()
+
+
+
+		
+
+		//d3.select("#edge0-2").select("line").transition()
+		//.attr("x2",600).attr("y2",90).duration(1000)
+		
+
+		
+	}
 	api.init = function(){
 		this.initSlider();
 		
@@ -331,23 +509,10 @@ var searchTree = function(){
 }
 
 insert(tree,50,messages)
-insert(tree,10,messages)
-insert(tree,8,messages)
-insert(tree,5,messages)
-insert(tree,6,messages)
-insert(tree,45,messages)
-insert(tree,55,messages)
-insert(tree,51,messages)
-insert(tree,70,messages)
-insert(tree,69,messages)
-insert(tree,65,messages)
-insert(tree,75,messages)
-insert(tree,95,messages)
-insert(tree,40,messages)
-insert(tree,49,messages)
-insert(tree,53,messages)
-insert(tree,42,messages)
-insert(tree,36,messages)
+insert(tree,60,messages)
+insert(tree,80,messages)
+insert(tree,90,messages)
+insert(tree,100,messages)
 
 viz.animate()
 
@@ -372,3 +537,12 @@ var postorderTree = function(){
 	viz.messages = messages
 	viz.animate()
 }
+
+var deleteNode = function(){
+	viz.resetEdges();
+	var val = document.getElementById("removeVal").value
+	viz.deleteNode(val)
+}
+
+
+//deleteNode()
