@@ -4,17 +4,22 @@
 	</head>
 	<style>
 		#svg-container{
-			border:1px solid black;
 			display: block;
 			margin: auto;
 		}
 		
 	</style>
 	<body>
-		<svg id="svg-container" width=500 height=500></svg>
+		<svg id="svg-container"></svg>
 		
 
+		<div>
+			<input type="text" id="insert">
+			<button id="insertbutton" onClick="InsertIntoTree()">Insert</button>
+		</div>
+
 		<button onClick="lib.deleteEdge(1)">Delete edge</button>
+		<script src="src/trees.js"></script>
 		<script src="src/nod3.js"></script>
 	</body>
 </html>
