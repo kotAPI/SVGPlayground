@@ -1,25 +1,254 @@
 <html>
-	<head>
-		<title>No D3</title>
-	</head>
-	<style>
-		#svg-container{
-			display: block;
-			margin: auto;
+<head>
+	<title>No D3</title>
+</head>
+<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+
+
+
+<style>
+body{
+	margin:0;
+	padding:0;
+}
+#svg-container{
+	display: block;
+	margin: auto;
+}
+input{
+	margin-bottom: 10px;
+	width:200px;
+	height: 30px;
+
+}
+button{
+	padding: 0px 10px;
+	height: 30px;
+	color: white;
+	background-color: #03A9F4;
+	outline: none;
+	border: 0;
+	
+	border-radius: 30px;
+	transition: all 0.1s;
+}
+button:disabled{
+	color:#43da0f;
+	opacity : 0;
+}
+button:hover{
+	color:white;
+	cursor: pointer;
+}
+button:active{
+	background-color: #2d7fa5;
+}
+#dockerbutton2{
+	background-color: #ff9800;
+	height: 96px;
+	border-radius: 3px;
+	font-size: 2em;
+}
+#dockerbutton2:active{
+	background-color: #d47f03;
+}
+.docker{
+	padding: 40px;
+	height: 100%;
+	top: 0px;
+	right: -800px;
+	width: 800px;
+	border: 1px solid black;
+	position: fixed;
+	background-color: white;
+	box-sizing: border-box;
+	transition: all 0.4s;
+	overflow-y: scroll;
+	
+}
+.docker-toggler{
+	padding:4px 20px 10px 20px;
+	bottom:80px;
+	position: fixed;
+	right:10px;
+	background-color: green;
+	color:white;
+	cursor: default;
+}
+.docker>h1,h2,h3,h4,h5,h6{
+	font-family: 'Lato', sans-serif;
+	padding:5px;
+	margin:4px;
+}
+.messagebox{
+	font-family: 'Lato', sans-serif;
+	padding:10px;
+	box-sizing: border-box;
+}
+.sliderlabel{
+	font-family: 'Lato', sans-serif;
+	position: relative;
+	top: -8px;
+}
+#docker-toggle-button{
+	transition: all 0.4s;
+	transform: rotate(0deg);
+}
+.node{
+	width: 30px;
+	height: 30px;
+	text-align: center;
+	line-height: 30px;
+	display: inline-block;
+	border-radius: 100px;
+	margin: 4px;
+	box-shadow: 1px 1px 12px rgba(0,0,0,0.5);
+	background-color: #38d486;
+}
+pre{
+	padding:10px 0px;
+	background-color: #f5f5f5;
+}
+</style>
+
+<body>
+
+	<div>
+		<div >
+			<div >
+				<svg id="svg-container">
+					<g id="layer-1"></g>
+					<g id="layer-2"></g>
+				</svg>
+
+				<div style="width: 800px;margin: auto;">
+					<div style="width:50%;float:left">
+                 <!--  <div>
+                    <span  class="sliderlabel">Slow</span>
+                    <input type="range" id="viz-slider">
+                    <span  class="sliderlabel">Fast</span>  
+                </div> -->
+                <div >
+                	<input type="text" id="insertVal" onfocus="this.value=''">
+                	<button id="insertbutton" class="actionbutton" onClick="InsertIntoTree()">Insert</button>
+                </div>
+                <div >
+                	<input id ="searchVal" type="text" onfocus="this.value=''">
+                	<button id="searchbutton" class="actionbutton"  onClick="searchTree();" >Search</button>
+                </div>
+                <div >
+                	<input id ="removeVal" type="text" onfocus="this.value=''">
+                	<button id="removeButton" class="actionbutton"  onClick="deleteNode()" >Remove</button>
+                </div>
+                <div>
+                	<button id="inorderbutton" class="actionbutton"  onClick="inorderTree()">Inorder</button>
+                	<button id="preorderbutton" class="actionbutton"  onClick="preorderTree()">Preorder</button>
+                	<button id="postorderbutton" class="actionbutton"  onClick="postorderTree()">Postorder</button>
+                </div>
+            </div>
+            
+
+            <div style="width:50%;float:left">
+            	<div class="messagebox">
+            		
+            		<div id="messages">
+            			
+            		</div>
+
+            	</div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+</div>
+
+<div class="docker" id="dockermain">
+	<div >
+		<div >
+
+			<h2>Inserting in a BST</h2>
+
+			<h5>Psuedo-code:</h5>
+			<pre>
+				insert (node, root){
+				if root == null
+				root = node
+				else if node.data == root.data
+				Print "Already Exists!"
+				else if node.data < root.data
+				insert(node, root.left)
+				else if node.data > root.data
+				insert(node, root.right)
+			}
+			</pre>
+
+			<h2>Searching in a BST</h2>
+			<h5>Psuedo-code</h5>
+			<pre>
+				search (key, root){
+				if root == null
+				Print "Not found!"
+				else if key == root.data
+				Print "Found!"
+				else if key < root.data
+				search(key, root.left)
+				else if key > root.data
+				search(key, root.right)
+			}
+	</pre>
+	
+
+	
+</div>
+</div>
+</div>
+<button id="dockerbutton2" class="docker-toggler">
+	<div id="docker-toggle-button"><</div>
+</button>
+
+
+<svg id="svg-container"></svg>
+
+
+
+<script src="src/trees.js"></script>
+<script src="src/nod3.js"></script>
+
+
+
+
+<script>
+
+	
+	var dockerbutton2 = document.getElementById("dockerbutton2")
+
+	
+
+
+	var docker = document.getElementById("dockermain");
+	var dockerbuttontoggler = document.getElementById("docker-toggle-button")
+	docker.style.right = "-800px"
+	dockerbuttontoggler.style.transform = "rotate(0deg)"
+	
+	dockerbutton2.addEventListener("click",()=>{
+		
+		var docker = document.getElementById("dockermain");
+		
+
+		var mode = docker.style.right
+		console.log(mode)
+		if(mode == "-800px"){
+			docker.style.right="0px"
+			dockerbuttontoggler.style.transform = "rotate(180deg)"
 		}
-		
-	</style>
-	<body>
-		<svg id="svg-container"></svg>
-		
+		else{
+			docker.style.right="-800px"
+			dockerbuttontoggler.style.transform = "rotate(0deg)"
+		}
+	})
 
-		<div>
-			<input type="text" id="insert">
-			<button id="insertbutton" onClick="InsertIntoTree()">Insert</button>
-		</div>
-
-		<button onClick="lib.deleteEdge(1)">Delete edge</button>
-		<script src="src/trees.js"></script>
-		<script src="src/nod3.js"></script>
-	</body>
+	
+</script>
+</body>
 </html>

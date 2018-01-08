@@ -7,7 +7,7 @@ var Lib = function(){
 	}
 
 	// Game speed - Preferably from 1-10
-	api.gameSpeed = 0.1
+	api.gameSpeed = 1
 	api.executing = false
 
 	// FUNCTIONS
@@ -17,6 +17,24 @@ var Lib = function(){
 		console.log(CONFIG.canvas)
 		svgCanvas.setAttribute("width",CONFIG.canvas.width)
 		svgCanvas.setAttribute("height",CONFIG.canvas.height)
+	}
+	api.beginAnimation = function(){
+		api.executing = true
+		var buttons = document.getElementsByClassName("actionbutton")
+
+		for(var i=0;i<buttons.length;i++){
+			buttons[i].style.display = "none";
+		}
+	},
+	api.endAnimation = function(){
+		api.executing = false;
+		var buttons = document.getElementsByClassName("actionbutton")
+
+		for(var i=0;i<buttons.length;i++){
+			buttons[i].style.display = "inline";
+		}
+
+
 	}
 	api.nodeExists = function(id){
 		var node = document.getElementById("node"+id)
@@ -80,12 +98,11 @@ var Lib = function(){
 		var radius = parseFloat(node.getAttribute("r"))
 		var strokeWidth = parseFloat(node.getAttribute("stroke-width"))
 
-		api.executing = true
+		api.beginAnimation()
 		
 		if(radius!==maxRad){
 			radius += 0.5
 			
-
 			node.setAttribute("r",radius)
 			
 
@@ -102,16 +119,16 @@ var Lib = function(){
 		}
 
 		else{
-			setTimeout(()=>{
-				api.resetEdgesAndNodes()
-			},api.gameSpeed+2000)
-			api.executing = false;
+			
+			api.resetEdgesAndNodes()
+			
+			api.endAnimation();
 			
 		}
 		
 	}
 	api.moveNode = function(id,x,y){
-		api.executing = true
+		api.beginAnimation()
 
 		var nodeGroup = document.getElementById("node-group-"+id)
 		var circle = nodeGroup.childNodes[0]
@@ -154,18 +171,18 @@ var Lib = function(){
 			
 		}
 		else{
-			api.executing = false
+			api.endAnimation()
 			
 		}
 	}
 	api.highlightNode = function(id){
 		var node = document.getElementById("node"+id)
-		api.executing = true
+		api.beginAnimation()
 		var color = node.getAttribute("fill")
 		var rgb = color;
 		rgb = rgb.substring(4, rgb.length-1)
-		         .replace(/ /g, '')
-		         .split(',');
+		.replace(/ /g, '')
+		.split(',');
 
 		var R = parseInt(rgb[0])
 		var G = parseInt(rgb[1])
@@ -177,24 +194,24 @@ var Lib = function(){
 		if(api.color.purple[0] !== R || api.color.purple[1] !== G || api.color.purple[2] !== B){
 			
 			if(R>api.color.purple[0]){
-					R -= 1
-				}
-				else if(R<api.color.purple[0]){
-					R +=1
-				}
+				R -= 1
+			}
+			else if(R<api.color.purple[0]){
+				R +=1
+			}
 
 			if(G>api.color.purple[1]){
-					G -= 1
-				}
-				else if(G<api.color.purple[1]){
-					G +=1
-				}
+				G -= 1
+			}
+			else if(G<api.color.purple[1]){
+				G +=1
+			}
 			if(B>api.color.purple[2]){
-					B -= 1
-				}
-				else if(B<api.color.purple[2]){
-					B +=1
-				}
+				B -= 1
+			}
+			else if(B<api.color.purple[2]){
+				B +=1
+			}
 
 			setTimeout(()=>{
 				node.setAttribute("fill","rgb("+R+","+G+","+B+")")
@@ -202,10 +219,9 @@ var Lib = function(){
 			},api.gameSpeed)
 		}
 
-		else{
-			setTimeout(()=>{
-				api.executing = false
-			},200)
+		else{			
+			api.endAnimation()
+			
 			
 		}
 
@@ -213,12 +229,12 @@ var Lib = function(){
 	}
 	api.selectNode = function(id){
 		var node = document.getElementById("node"+id)
-		api.executing = true
+		api.beginAnimation()
 		var color = node.getAttribute("fill")
 		var rgb = color;
 		rgb = rgb.substring(4, rgb.length-1)
-		         .replace(/ /g, '')
-		         .split(',');
+		.replace(/ /g, '')
+		.split(',');
 
 		var R = parseInt(rgb[0])
 		var G = parseInt(rgb[1])
@@ -230,24 +246,24 @@ var Lib = function(){
 		if(api.color.yellow[0] !== R || api.color.yellow[1] !== G || api.color.yellow[2] !== B){
 			
 			if(R>api.color.yellow[0]){
-					R -= 1
-				}
-				else if(R<api.color.yellow[0]){
-					R +=1
-				}
+				R -= 1
+			}
+			else if(R<api.color.yellow[0]){
+				R +=1
+			}
 
 			if(G>api.color.yellow[1]){
-					G -= 1
-				}
-				else if(G<api.color.yellow[1]){
-					G +=1
-				}
+				G -= 1
+			}
+			else if(G<api.color.yellow[1]){
+				G +=1
+			}
 			if(B>api.color.yellow[2]){
-					B -= 1
-				}
-				else if(B<api.color.yellow[2]){
-					B +=1
-				}
+				B -= 1
+			}
+			else if(B<api.color.yellow[2]){
+				B +=1
+			}
 
 			setTimeout(()=>{
 
@@ -258,7 +274,7 @@ var Lib = function(){
 
 		else{
 			node.setAttribute("stroke","rgb("+api.color.yellow[0]+","+api.color.yellow[1]+","+api.color.yellow[2]+")")
-			api.executing = false
+			api.endAnimation()
 			
 		}
 	}
@@ -279,38 +295,38 @@ var Lib = function(){
 
 	}
 	api.createEdge = function(from_edge,to_edge,x1,y1,x2,y2){
-			var svg = document.getElementById("svg-container");
-			var edgeLayer = document.getElementById("svg-edge-layer")
-			
-			var dx = x2-x1;
+		var svg = document.getElementById("svg-container");
+		var edgeLayer = document.getElementById("svg-edge-layer")
+		
+		var dx = x2-x1;
 
-			x1 = Math.ceil(x1)
-			y1 = Math.ceil(y1)
-			x2 = Math.ceil(x2)
-			y2 = Math.ceil(y2)
+		x1 = Math.ceil(x1)
+		y1 = Math.ceil(y1)
+		x2 = Math.ceil(x2)
+		y2 = Math.ceil(y2)
 
-			if(edgeLayer===null){
-				edgeLayer = document.createElementNS("http://www.w3.org/2000/svg","g")
-				edgeLayer.setAttribute("id","svg-edge-layer")
-				svg.prepend(edgeLayer)
-				edgeLayer = document.getElementById("svg-edge-layer")
-			}
+		if(edgeLayer===null){
+			edgeLayer = document.createElementNS("http://www.w3.org/2000/svg","g")
+			edgeLayer.setAttribute("id","svg-edge-layer")
+			svg.prepend(edgeLayer)
+			edgeLayer = document.getElementById("svg-edge-layer")
+		}
 
-			var edge = document.createElementNS("http://www.w3.org/2000/svg","line")
-			edge.setAttribute("id","edge"+from_edge+to_edge)
-			edge.setAttribute("x1",x1)
-			edge.setAttribute("y1",y1)
-			edge.setAttribute("x2",x1)
-			edge.setAttribute("y2",y1)
-			edge.setAttribute("stroke-width",6)
-			edge.setAttribute("stroke","rgb("+api.color.orange[0]+","+api.color.orange[1]+","+api.color.orange[2]+")")
+		var edge = document.createElementNS("http://www.w3.org/2000/svg","line")
+		edge.setAttribute("id","edge"+from_edge+to_edge)
+		edge.setAttribute("x1",x1)
+		edge.setAttribute("y1",y1)
+		edge.setAttribute("x2",x1)
+		edge.setAttribute("y2",y1)
+		edge.setAttribute("stroke-width",6)
+		edge.setAttribute("stroke","rgb("+api.color.orange[0]+","+api.color.orange[1]+","+api.color.orange[2]+")")
 
-			edgeLayer.append(edge)
-			api.h_animateEdge(from_edge,to_edge,x1,y1,x2,y2)
+		edgeLayer.append(edge)
+		api.h_animateEdge(from_edge,to_edge,x1,y1,x2,y2)
 
 	}
 	api.h_animateEdge = function(from_edge,to_edge,x1,y1,x2,y2){
-		api.executing = true
+		api.beginAnimation()
 		
 		
 		var edge = document.getElementById("edge"+from_edge+to_edge)
@@ -345,8 +361,8 @@ var Lib = function(){
 		}
 		else{
 			
-			api.executing = false
-		
+			api.endAnimation()
+			
 			
 		}
 		
@@ -370,7 +386,7 @@ var Lib = function(){
 
 	}
 	api.h_del_animateEdge = function(edge,speed){
-		api.executing = true
+		api.beginAnimation()
 		var x1 = parseFloat(edge.getAttribute("x1"))
 		var y1 = parseFloat(edge.getAttribute("y1"))
 		var x2 = parseFloat(edge.getAttribute("x2"))
@@ -404,7 +420,7 @@ var Lib = function(){
 				
 			}
 
-	
+			
 			edge.setAttribute("x2",x2)
 			edge.setAttribute("y2",y2)
 			setTimeout(()=>{
@@ -412,14 +428,14 @@ var Lib = function(){
 			},api.gameSpeed)
 		}
 		else{
-			api.executing= false
+			api.endAnimation()
 			edge.parentNode.removeChild(edge);
 		}
 
 
 	}
 	api.highlightEdge = function(from_edge,to_edge){
-		api.executing = true
+		api.beginAnimation()
 		var edge = document.getElementById("edge"+from_edge+to_edge);
 
 		var width = parseFloat(edge.getAttribute("stroke-width"))
@@ -436,7 +452,7 @@ var Lib = function(){
 		}
 		else{
 			edge.setAttribute("stroke","rgb("+api.color.purple[0]+","+api.color.purple[1]+","+api.color.purple[2]+")")
-			api.executing= false
+			api.endAnimation()
 		}
 
 	}
@@ -458,6 +474,18 @@ var Lib = function(){
 			}
 			if(!api.executing){
 				console.log(messages[i])
+				if(messages[i].msg ==="PRINT_NODE"){
+					
+
+					var node = document.createElement("div")
+					node.setAttribute("class","node")
+					node.innerHTML = messages[i].params.val
+
+					var docbox = document.getElementById("messages")
+					docbox.appendChild(node)
+					
+					
+				}
 				if(messages[i].msg=="SPAWN_NODE"){
 					
 					var node = findXYPos(messages[i].params.idx, CONFIG);
@@ -520,14 +548,61 @@ var tree = []
 //// HTML DOM INPUT STUFF
 ///////////////////
 
+var emptyMessageBox= function(){
+	var box = document.getElementById("messages")
+	box.innerHTML = ""
+}
+
 var InsertIntoTree = function(){
 	lib.resetEdgesAndNodes()
-	var val = document.getElementById("insert").value
+	var val = document.getElementById("insertVal").value
 	val = parseInt(val)
 	console.log(val)
 	var messages = []
 
 	insert(tree,val,messages)
+	var flattenMessages = lib.flattenMessages(messages)
+	lib.animate(flattenMessages)
+}
+
+
+var searchTree = function(){
+	lib.resetEdgesAndNodes()
+	var val = document.getElementById("searchVal").value
+	val = parseInt(val)
+	console.log(val)
+	var messages = []
+
+	search(tree,val,messages)
+	var flattenMessages = lib.flattenMessages(messages)
+	lib.animate(flattenMessages)
+}
+
+var inorderTree = function(){
+	lib.resetEdgesAndNodes()
+	var messages = []
+	emptyMessageBox()
+	inorderTraversal(tree,0,messages)
+	var flattenMessages = lib.flattenMessages(messages)
+	lib.animate(flattenMessages)
+}
+
+var preorderTree = function(){
+	lib.resetEdgesAndNodes()
+	emptyMessageBox()
+	var messages = []
+
+	preorderTraversal(tree,0,messages)
+	var flattenMessages = lib.flattenMessages(messages)
+	lib.animate(flattenMessages)
+}
+
+var postorderTree = function(){
+	lib.resetEdgesAndNodes()
+	emptyMessageBox()
+	var messages = []
+
+	preorderTraversal(tree,0,messages)
 	var flattenMessages = lib.flattenMessages(messages)
 	lib.animate(flattenMessages)
 }
