@@ -348,79 +348,79 @@ var Visualization = function(){
 
 
 		// case 3
-		d3.select("#edge0-2").select("line").transition().attr("x2",400).attr("y2",30).duration(500)
-		.transition().attr("x2",1000).attr("y2",10000)
+		// d3.select("#edge0-2").select("line").transition().attr("x2",400).attr("y2",30).duration(500)
+		// .transition().attr("x2",1000).attr("y2",10000)
 
 
 
-		d3.select("#edge2-6").select("line").transition().attr("x2",600).attr("y2",90).duration(500)
-		d3.select("#edge6-14").select("line").transition().attr("x2",700).attr("y2",150).duration(500)
-		d3.select("#edge0-2").select("line").transition().attr("x2",400).attr("y2",30).duration(500)
+		// d3.select("#edge2-6").select("line").transition().attr("x2",600).attr("y2",90).duration(500)
+		// d3.select("#edge6-14").select("line").transition().attr("x2",700).attr("y2",150).duration(500)
+		// d3.select("#edge0-2").select("line").transition().attr("x2",400).attr("y2",30).duration(500)
 
 
 
 
-		d3.select("#group"+"60")
-		 .style("fill",vizsettings.NodeColor)
-		 .transition()
-		 .style("fill","black")
-		 .duration(500)
-		 .remove()
+		// d3.select("#group"+"60")
+		//  .style("fill",vizsettings.NodeColor)
+		//  .transition()
+		//  .style("fill","black")
+		//  .duration(500)
+		//  .remove()
 
-		d3.select("#circle"+"3").style("fill",vizsettings.NodeColor)
-		 .transition()
-		 .style("fill","black")
-		 .duration(1000)
-		 .remove()
+		// d3.select("#circle"+"3").style("fill",vizsettings.NodeColor)
+		//  .transition()
+		//  .style("fill","black")
+		//  .duration(1000)
+		//  .remove()
 
 		
 		
 
-		 d3.select("#group80")
-		   .select("circle")
-		   .transition()
-		   .attr("cx",600)
-		   .attr("cy",90)
-		   .duration(1000)
+		//  d3.select("#group80")
+		//    .select("circle")
+		//    .transition()
+		//    .attr("cx",600)
+		//    .attr("cy",90)
+		//    .duration(1000)
 
-		 d3.select("#group80")
-		   .select("text")
-		   .transition()
-		   .attr("x",600)
-		   .attr("y",90)
-		   .duration(1000)
-		   ////////////////////////////////
-		d3.select("#group90")
-		   .select("circle")
-		   .transition()
-		   .attr("cx",700)
-		   .attr("cy",150)
-		   .duration(1000)
+		//  d3.select("#group80")
+		//    .select("text")
+		//    .transition()
+		//    .attr("x",600)
+		//    .attr("y",90)
+		//    .duration(1000)
+		//    ////////////////////////////////
+		// d3.select("#group90")
+		//    .select("circle")
+		//    .transition()
+		//    .attr("cx",700)
+		//    .attr("cy",150)
+		//    .duration(1000)
 
-		 d3.select("#group90")
-		   .select("text")
-		   .transition()
-		   .attr("x",700)
-		   .attr("y",150)
-		   .duration(1000)
-		 ///////////////////////////////////
-		   ////////////////////////////////
-		d3.select("#group100")
-		   .select("circle")
-		   .transition()
-		   .attr("cx",750)
-		   .attr("cy",210)
-		   .duration(1000)
+		//  d3.select("#group90")
+		//    .select("text")
+		//    .transition()
+		//    .attr("x",700)
+		//    .attr("y",150)
+		//    .duration(1000)
+		//  ///////////////////////////////////
+		//    ////////////////////////////////
+		// d3.select("#group100")
+		//    .select("circle")
+		//    .transition()
+		//    .attr("cx",750)
+		//    .attr("cy",210)
+		//    .duration(1000)
 
-		 d3.select("#group100")
-		   .select("text")
-		   .transition()
-		   .attr("x",750)
-		   .attr("y",210)
-		   .duration(1000)
+		//  d3.select("#group100")
+		//    .select("text")
+		//    .transition()
+		//    .attr("x",750)
+		//    .attr("y",210)
+		//    .duration(1000)
 
-		d3.select("#edge14-30").select("line")
-		.remove()
+		// d3.select("#edge14-30").select("line")
+		// .remove()
 
 
 

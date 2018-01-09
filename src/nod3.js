@@ -9,7 +9,8 @@ var Lib = function(){
 	// Game speed - Preferably from 1-10
 	api.gameSpeed = 1
 	api.executing = false
-
+	api.messages = []
+	api.animationMode = 0
 	// FUNCTIONS
 	///
 	api.init = function(){
@@ -44,6 +45,45 @@ var Lib = function(){
 		else{
 			return false;
 		}
+	}
+	api.q_createNode = function(id,x,y,val){
+		var svg = document.getElementById("svg-container");
+		var nodeLayer = document.getElementById("svg-node-layer")
+		
+		if(nodeLayer===null){
+			nodeLayer = document.createElementNS("http://www.w3.org/2000/svg","g")
+			nodeLayer.setAttribute("id","svg-node-layer")
+			svg.append(nodeLayer)
+			nodeLayer = document.getElementById("svg-node-layer")
+		}
+
+		var circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+		var createNodeColor = "rgb("+api.color.orange[0]+","+api.color.orange[1]+","+api.color.orange[2]+")"
+		circle.setAttribute("id","node"+id)
+		circle.setAttribute("cx",x)
+		circle.setAttribute("cy",y)
+		circle.setAttribute("r",20)
+		circle.setAttribute("stroke","white")
+		circle.setAttribute("stroke-width",2)
+		circle.setAttribute("fill",createNodeColor)
+
+		var text = document.createElementNS("http://www.w3.org/2000/svg", "text")
+		text.setAttribute("text-anchor","middle")
+		text.setAttribute("alignment-baseline","middle")
+		text.setAttribute("x",x)
+		text.setAttribute("y",y)
+		text.textContent = val
+
+		var nodeGroup = document.createElementNS("http://www.w3.org/2000/svg", "g")
+		nodeGroup.setAttribute("id","node-group-"+id)
+		nodeGroup.append(circle)
+		nodeGroup.append(text)
+
+
+		/// APPEND GROUP TO NODELAYER
+		nodeLayer.append(nodeGroup)
+		api.resetEdgesAndNodes()
+
 	}
 	api.createNode = function(id,x,y,val){
 		
@@ -102,7 +142,7 @@ var Lib = function(){
 		
 		if(radius!==maxRad){
 			radius += 0.5
-			
+
 			node.setAttribute("r",radius)
 			
 
@@ -175,6 +215,11 @@ var Lib = function(){
 			
 		}
 	}
+	api.q_highlightNode = function(id){
+		var node = document.getElementById("node"+id)		
+
+		node.setAttribute("fill","rgb("+api.color.purple[0]+","+api.color.purple[1]+","+api.color.purple[2]+")")
+	}
 	api.highlightNode = function(id){
 		var node = document.getElementById("node"+id)
 		api.beginAnimation()
@@ -225,6 +270,12 @@ var Lib = function(){
 			
 		}
 
+		
+	}
+	api.q_selectNode = function(id){
+		var node = document.getElementById("node"+id)		
+
+		node.setAttribute("fill","rgb("+api.color.yellow[0]+","+api.color.yellow[1]+","+api.color.yellow[2]+")")
 		
 	}
 	api.selectNode = function(id){
@@ -294,10 +345,34 @@ var Lib = function(){
 
 
 	}
+	api.q_createEdge = function(from_edge,to_edge,x1,y1,x2,y2){
+		var svg = document.getElementById("svg-container");
+		var edgeLayer = document.getElementById("svg-edge-layer")
+
+		if(edgeLayer===null){
+			edgeLayer = document.createElementNS("http://www.w3.org/2000/svg","g")
+			edgeLayer.setAttribute("id","svg-edge-layer")
+			svg.prepend(edgeLayer)
+			edgeLayer = document.getElementById("svg-edge-layer")
+		}
+
+		var edge = document.createElementNS("http://www.w3.org/2000/svg","line")
+		edge.setAttribute("id","edge"+from_edge+to_edge)
+		edge.setAttribute("x1",x1)
+		edge.setAttribute("y1",y1)
+		edge.setAttribute("x2",x2)
+		edge.setAttribute("y2",y2)
+		edge.setAttribute("stroke-width",6)
+		edge.setAttribute("stroke","rgb("+api.color.orange[0]+","+api.color.orange[1]+","+api.color.orange[2]+")")
+
+		edgeLayer.append(edge)
+
+
+	}
 	api.createEdge = function(from_edge,to_edge,x1,y1,x2,y2){
 		var svg = document.getElementById("svg-container");
 		var edgeLayer = document.getElementById("svg-edge-layer")
-		
+
 		var dx = x2-x1;
 
 		x1 = Math.ceil(x1)
@@ -362,7 +437,7 @@ var Lib = function(){
 		else{
 			
 			api.endAnimation()
-			
+
 			
 		}
 		
@@ -420,7 +495,7 @@ var Lib = function(){
 				
 			}
 
-			
+
 			edge.setAttribute("x2",x2)
 			edge.setAttribute("y2",y2)
 			setTimeout(()=>{
@@ -433,6 +508,11 @@ var Lib = function(){
 		}
 
 
+	}
+	api.q_highlightEdge = function(from_edge,to_edge){
+		var edge = document.getElementById("edge"+from_edge+to_edge);
+		edge.setAttribute("stroke-width",2)
+		edge.setAttribute("stroke","rgb("+api.color.purple[0]+","+api.color.purple[1]+","+api.color.purple[2]+")")
 	}
 	api.highlightEdge = function(from_edge,to_edge){
 		api.beginAnimation()
@@ -456,6 +536,11 @@ var Lib = function(){
 		}
 
 	}
+	api.q_selectEdge = function(from_edge,to_edge){
+		var edge = document.getElementById("edge"+from_edge+to_edge);
+		edge.setAttribute("stroke-width",4)
+		edge.setAttribute("stroke","rgb("+api.color.yellow[0]+","+api.color.yellow[1]+","+api.color.yellow[2]+")")
+	}
 	api.selectEdge = function(from_edge,to_edge){
 		var edge = document.getElementById("edge"+from_edge+to_edge);
 		edge.setAttribute("stroke-width",4)
@@ -463,7 +548,7 @@ var Lib = function(){
 	}
 	api.animate = function(messages){
 		var length = messages.length
-
+		
 		var i=0;
 		var a = setInterval(()=>{
 			if(api.executing){
@@ -473,7 +558,7 @@ var Lib = function(){
 				//console.log("blocked")
 			}
 			if(!api.executing){
-				console.log(messages[i])
+				//console.log(messages[i])
 				if(messages[i].msg ==="PRINT_NODE"){
 					
 
@@ -489,25 +574,63 @@ var Lib = function(){
 				if(messages[i].msg=="SPAWN_NODE"){
 					
 					var node = findXYPos(messages[i].params.idx, CONFIG);
-					api.createNode(messages[i].params.idx,node.x,node.y,messages[i].params.val)
+					if(api.animationMode==0){
+						api.q_createNode(messages[i].params.idx,node.x,node.y,messages[i].params.val)
+					}
+					else if(api.animationMode == 1){
+						api.createNode(messages[i].params.idx,node.x,node.y,messages[i].params.val)
+					}
+					
 				}
 				if(messages[i].msg == "SELECT_NODE"){
-					api.selectNode(messages[i].params.idx)
+					
+
+					if(api.animationMode==0){
+						api.q_selectNode(messages[i].params.idx)
+					}
+					else if(api.animationMode == 1){
+						api.selectNode(messages[i].params.idx)
+					}
 				}
 				if(messages[i].msg == "HIGHLIGHT_NODE"){
-					api.highlightNode(messages[i].params.idx)
+					if(api.animationMode==0){
+						api.q_highlightNode(messages[i].params.idx)
+					}
+					else if(api.animationMode == 1){
+						api.highlightNode(messages[i].params.idx)
+					}
+					
 				}
 				if(messages[i].msg == "SPAWN_EDGE"){
 					var node1 = findXYPos(messages[i].params.from,CONFIG)
 					var node2 = findXYPos(messages[i].params.to,CONFIG)
 
-					api.createEdge(messages[i].params.from,messages[i].params.to,node1.x,node1.y,node2.x,node2.y)
+					if(api.animationMode==0){
+						api.q_createEdge(messages[i].params.from,messages[i].params.to,node1.x,node1.y,node2.x,node2.y)
+					}
+					else if(api.animationMode == 1){
+						api.createEdge(messages[i].params.from,messages[i].params.to,node1.x,node1.y,node2.x,node2.y)
+					}
+
+					
 				}
 				if(messages[i].msg == "HIGHLIGHT_EDGE"){
-					api.highlightEdge(messages[i].params.from,messages[i].params.to)
+					if(api.animationMode==0){
+						api.q_highlightEdge(messages[i].params.from,messages[i].params.to)
+					}
+					else if(api.animationMode == 1){
+						api.highlightEdge(messages[i].params.from,messages[i].params.to)
+					}
+					
 				}
 				if(messages[i].msg == "SELECT_EDGE"){
-					api.selectEdge(messages[i].params.from,messages[i].params.to)
+					if(api.animationMode==0){
+						api.q_selectEdge(messages[i].params.from,messages[i].params.to)
+					}
+					else if(api.animationMode == 1){
+						api.selectEdge(messages[i].params.from,messages[i].params.to)
+					}
+					
 				}
 				i++;
 			}
@@ -516,6 +639,10 @@ var Lib = function(){
 			}
 		},api.gameSpeed)
 
+	}
+	api.clearCanvas = function(){
+		document.getElementById("svg-edge-layer").innerHTML = ""
+		document.getElementById("svg-node-layer").innerHTML = ""
 	}
 	api.flattenMessages = function(messages){
 		let tempArr = [];
@@ -540,10 +667,36 @@ var messages = []
 var tree = []
 
 
+function updateSlider(){
+	lib.animationMode=0
+	lib.clearCanvas()
 
+	var slider = document.getElementById("timetravel")
+	slider.min =0;
+	slider.max = lib.messages.length
+	
+	sliderVal = slider.value
+	if(sliderVal==0){return}
+	var tempMessages = [];
+	for(var i=0;i<sliderVal;i++){
+		tempMessages.push(lib.messages[i])
+	}
+	console.log(tempMessages)
+	console.log(lib.messages[lib.messages.length-1])
+	lib.animate(tempMessages)
 
+}
 
+insert(tree,50,messages)
+insert(tree,0,messages)
+insert(tree,100,messages)
+insert(tree,1500,messages)
+insert(tree,20,messages)
+insert(tree,40,messages)
+messages = lib.flattenMessages(messages)
 
+lib.animate(messages)
+lib.messages = messages
 ///////////////////
 //// HTML DOM INPUT STUFF
 ///////////////////
@@ -554,15 +707,25 @@ var emptyMessageBox= function(){
 }
 
 var InsertIntoTree = function(){
+	lib.animationMode=1
 	lib.resetEdgesAndNodes()
 	var val = document.getElementById("insertVal").value
 	val = parseInt(val)
-	console.log(val)
-	var messages = []
+	
+	var newMsgs = []
+	insert(tree,val,newMsgs)
 
-	insert(tree,val,messages)
-	var flattenMessages = lib.flattenMessages(messages)
+	var flattenMessages = lib.flattenMessages(newMsgs)
+	console.log(flattenMessages)
+
+	messages.push(flattenMessages)
+
 	lib.animate(flattenMessages)
+	
+	for(var i=0;i<flattenMessages.length;i++){
+		lib.messages.push(flattenMessages[i])
+	}
+	//console.log(lib.messages)
 }
 
 

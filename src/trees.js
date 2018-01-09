@@ -188,7 +188,7 @@ const findXYPos = (nodeIdx, config) => {
 
 var CONFIG = {
   canvas: {
-    width: window.innerWidth,
+    width: 800,
     height:400
   },
   row: {
