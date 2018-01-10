@@ -1,0 +1,56 @@
+<html>
+	<head>
+		<title>Linked List</title>
+		<script src="src/linkedList.js"></script>
+		<script src="src/nod3.js"></script>
+	</head>
+	<body>
+		
+		<svg id="svg-container"></svg>
+		<input id="insert" type="text">
+		<button id="insertButton" onclick="insertIntoList()">Insert</button>
+		<script>
+			var CONFIG = {
+			  canvas: {
+			    width: 800,
+			    height:400
+			  },
+			  row: {
+			    height: 60
+			  }
+			};
+						
+			var lib = Lib()
+
+			lib.init()
+			lib.animationMode = 1
+			
+
+
+
+
+
+			var LList = LinkedList();
+			LList.insertToList(1)
+			LList.insertToList(2)
+			LList.insertToList(3)
+			
+			lib.animateLinkedList(LList.messages)
+			
+			//LList.removeNode(4)
+			
+			
+
+			var insertIntoList = function(){
+				lib.animationMode = 1
+				lib.resetEdgesAndNodes()
+				var val = document.getElementById("insert").value
+				val = parseInt(val)
+
+				var message = LList.insertToList(val)
+				
+				lib.animateLinkedList(message)
+			}
+		</script>
+	</body>
+</html>
