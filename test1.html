@@ -182,21 +182,21 @@ pre{
 				else if node.data > root.data
 				insert(node, root.right)
 			}
-			</pre>
+		</pre>
 
-			<h2>Searching in a BST</h2>
-			<h5>Psuedo-code</h5>
-			<pre>
-				search (key, root){
-				if root == null
-				Print "Not found!"
-				else if key == root.data
-				Print "Found!"
-				else if key < root.data
-				search(key, root.left)
-				else if key > root.data
-				search(key, root.right)
-			}
+		<h2>Searching in a BST</h2>
+		<h5>Psuedo-code</h5>
+		<pre>
+			search (key, root){
+			if root == null
+			Print "Not found!"
+			else if key == root.data
+			Print "Found!"
+			else if key < root.data
+			search(key, root.left)
+			else if key > root.data
+			search(key, root.right)
+		}
 	</pre>
 	
 
@@ -250,6 +250,120 @@ pre{
 	})
 
 	
+
+
+///// Btrees script
+
+
+
+var lib = Lib()
+lib.init()
+
+var messages = []
+var tree = []
+
+
+function updateSlider(){
+	lib.animationMode=0
+	lib.clearCanvas()
+
+	var slider = document.getElementById("timetravel")
+	slider.min =0;
+	slider.max = lib.messages.length
+	
+	sliderVal = slider.value
+	if(sliderVal==0){return}
+		var tempMessages = [];
+	for(var i=0;i<sliderVal;i++){
+		tempMessages.push(lib.messages[i])
+	}
+	
+	lib.animate(tempMessages)
+
+}
+
+insert(tree,50,messages)
+insert(tree,0,messages)
+insert(tree,100,messages)
+insert(tree,1500,messages)
+insert(tree,20,messages)
+insert(tree,40,messages)
+messages = lib.flattenMessages(messages)
+
+lib.animate(messages)
+lib.messages = messages
+///////////////////
+//// HTML DOM INPUT STUFF
+///////////////////
+
+var emptyMessageBox= function(){
+	var box = document.getElementById("messages")
+	box.innerHTML = ""
+}
+
+var InsertIntoTree = function(){
+	lib.animationMode=1
+	lib.resetEdgesAndNodes()
+	var val = document.getElementById("insertVal").value
+	val = parseInt(val)
+	
+	var newMsgs = []
+	insert(tree,val,newMsgs)
+
+	var flattenMessages = lib.flattenMessages(newMsgs)
+	console.log(flattenMessages)
+
+	messages.push(flattenMessages)
+
+	lib.animate(flattenMessages)
+	
+	for(var i=0;i<flattenMessages.length;i++){
+		lib.messages.push(flattenMessages[i])
+	}
+	//console.log(lib.messages)
+}
+
+
+var searchTree = function(){
+	lib.resetEdgesAndNodes()
+	var val = document.getElementById("searchVal").value
+	val = parseInt(val)
+	console.log(val)
+	var messages = []
+
+	search(tree,val,messages)
+	var flattenMessages = lib.flattenMessages(messages)
+	lib.animate(flattenMessages)
+}
+
+var inorderTree = function(){
+	lib.resetEdgesAndNodes()
+	var messages = []
+	emptyMessageBox()
+	inorderTraversal(tree,0,messages)
+	var flattenMessages = lib.flattenMessages(messages)
+	lib.animate(flattenMessages)
+}
+
+var preorderTree = function(){
+	lib.resetEdgesAndNodes()
+	emptyMessageBox()
+	var messages = []
+
+	preorderTraversal(tree,0,messages)
+	var flattenMessages = lib.flattenMessages(messages)
+	lib.animate(flattenMessages)
+}
+
+var postorderTree = function(){
+	lib.resetEdgesAndNodes()
+	emptyMessageBox()
+	var messages = []
+
+	preorderTraversal(tree,0,messages)
+	var flattenMessages = lib.flattenMessages(messages)
+	lib.animate(flattenMessages)
+}
 </script>
 </body>
 </html>

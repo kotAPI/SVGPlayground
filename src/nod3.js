@@ -7,7 +7,7 @@ var Lib = function(){
 	}
 
 	// Game speed - Preferably from 1-10
-	api.gameSpeed = 1
+	api.gameSpeed = 2
 	api.executing = false
 	api.messages = []
 	api.animationMode = 0
@@ -167,54 +167,7 @@ var Lib = function(){
 		}
 		
 	}
-	api.moveNode = function(id,x,y){
-		api.beginAnimation()
-
-		var nodeGroup = document.getElementById("node-group-"+id)
-		var circle = nodeGroup.childNodes[0]
-		var text   = nodeGroup.childNodes[1]
-
-		var x = Math.floor(x)
-		var y = Math.floor(y)
-
-		
-		var curr_x = parseFloat(circle.getAttribute("cx"))
-		var curr_y = parseFloat(circle.getAttribute("cy"))
-		
-		var slope = parseFloat(curr_y - y) /  parseFloat(curr_x-x)
-
-
-
-		var velocity =  1
-		
-
-		
-		if(curr_x!==x && curr_y!==y){
-			if(curr_x<x){
-				curr_x += velocity
-			}
-			if(curr_x>x){
-				curr_x -= velocity
-			}
-			curr_y = slope*(curr_x-x) + y
-
-			circle.setAttribute("cx",curr_x)
-			circle.setAttribute("cy",curr_y)
-			text.setAttribute("x",curr_x)
-			text.setAttribute("y",curr_y)
-
-
-			setTimeout(()=>{
-				api.moveNode(id,x,y)
-			},api.gameSpeed)
-			
-			
-		}
-		else{
-			api.endAnimation()
-			
-		}
-	}
+	
 	api.q_highlightNode = function(id){
 		var node = document.getElementById("node"+id)		
 
@@ -264,7 +217,8 @@ var Lib = function(){
 			},api.gameSpeed)
 		}
 
-		else{			
+		else{
+
 			api.endAnimation()
 			
 			
@@ -640,6 +594,197 @@ var Lib = function(){
 		},api.gameSpeed)
 
 	}
+	/////////////////////////////////
+	api.animateLinkedList = function(messages){
+		var length = messages.length
+		
+		var i=0;
+		var a = setInterval(()=>{
+			if(api.executing){
+				//console.log("animating")
+			}
+			else{
+				//console.log("blocked")
+			}
+			if(!api.executing){
+				//console.log(messages[i])
+				
+				if(messages[i].msg=="SPAWN_NODE"){
+					
+					
+					if(api.animationMode==0){
+						api.q_createNode(messages[i].params.idx,messages[i].params.x,messages[i].params.y,messages[i].params.val)
+					}
+					else if(api.animationMode == 1){
+						api.createNode(messages[i].params.idx,messages[i].params.x,messages[i].params.y,messages[i].params.val)
+					}
+					
+				}
+				if(messages[i].msg == "SELECT_NODE"){
+					
+
+					if(api.animationMode==0){
+						api.q_selectNode(messages[i].params.idx)
+					}
+					else if(api.animationMode == 1){
+						api.selectNode(messages[i].params.idx)
+					}
+				}
+				if(messages[i].msg == "HIGHLIGHT_NODE"){
+					if(api.animationMode==0){
+						api.q_highlightNode(messages[i].params.idx)
+					}
+					else if(api.animationMode == 1){
+						api.highlightNode(messages[i].params.idx)
+					}
+					
+				}
+				if(messages[i].msg == "SPAWN_EDGE"){
+					node1 = messages[i].params.node1
+					node2 = messages[i].params.node2
+					console.log(node1,node2)
+					if(api.animationMode==0){
+						api.q_createEdge(messages[i].params.from,messages[i].params.to,node1.x,node1.y,node2.x,node2.y)
+					}
+					else if(api.animationMode == 1){
+						api.createEdge(messages[i].params.from,messages[i].params.to,node1.x,node1.y,node2.x,node2.y)
+					}
+
+					
+				}
+				if(messages[i].msg == "HIGHLIGHT_EDGE"){
+					if(api.animationMode==0){
+						api.q_highlightEdge(messages[i].params.from,messages[i].params.to)
+					}
+					else if(api.animationMode == 1){
+						api.highlightEdge(messages[i].params.from,messages[i].params.to)
+					}
+					
+				}
+				if(messages[i].msg == "SELECT_EDGE"){
+					if(api.animationMode==0){
+						api.q_selectEdge(messages[i].params.from,messages[i].params.to)
+					}
+					else if(api.animationMode == 1){
+						api.selectEdge(messages[i].params.from,messages[i].params.to)
+					}
+					
+				}
+				i++;
+			}
+			if(i>=messages.length){
+				clearInterval(a)
+			}
+		},10)
+	}
+	api.moveEdge = function(edge,new_x1,new_y1,new_x2,new_y2){
+		var x1 = parseInt(edge.getAttribute("x1"))
+		var y1 = parseInt(edge.getAttribute("y1"))
+		var x2 = parseInt(edge.getAttribute("x2"))
+		var y2 = parseInt(edge.getAttribute("y2"))
+
+		if(x1!==new_x1 || y1!==new_y1 || x2!==new_x2 || y2!==new_y2){
+			edge.setAttribute("x1",x1>new_x1?x1-1:x1+1)
+			edge.setAttribute("y1",y1>new_y1?y1-1:y1+1)
+
+			edge.setAttribute("x2",x2>new_x2?x2-1:x2+1)
+			edge.setAttribute("y2",y2>new_y2?y2-1:y2+1)
+
+			setTimeout(()=>{
+				api.moveEdge(edge,new_x1,new_y1,new_x2,new_y2)
+			},1)
+		}
+		else{
+			//
+		}
+	}
+	api.moveNode = function(nodeGroup,x,y){
+		api.beginAnimation()
+
+		// var nodeGroup = document.getElementById("node-group-"+id)
+		var circle = nodeGroup.childNodes[0]
+		var text   = nodeGroup.childNodes[1]
+
+		var x = Math.floor(x)
+		var y = Math.floor(y)
+		
+		
+		var curr_x = parseFloat(circle.getAttribute("cx"))
+		var curr_y = parseFloat(circle.getAttribute("cy"))
+		
+		var slope = parseFloat(curr_y - y) /  parseFloat(curr_x-x)
+
+
+
+		var velocity =  1
+		
+
+		
+		if(curr_x!==x || curr_y!==y){
+			if(curr_x<x){
+				curr_x += velocity
+			}
+			if(curr_x>x){
+				curr_x -= velocity
+			}
+			curr_y = slope*(curr_x-x) + y
+
+			circle.setAttribute("cx",curr_x)
+			circle.setAttribute("cy",curr_y)
+			text.setAttribute("x",curr_x)
+			text.setAttribute("y",curr_y)
+
+
+			
+
+			setTimeout(()=>{
+				api.moveNode(nodeGroup,x,y)
+				
+			},api.gameSpeed)
+			
+			
+		}
+		else{
+			api.endAnimation()
+			
+		}
+	}
+	api.moveLinkedListGroup = function(fromId,toId){
+		var nodes = []
+		var edges = []
+		for(var i=fromId;i<=toId;i++){
+			let group = document.getElementById("node-group-"+i)
+			nodes.push(group)
+		}
+		for(var i=fromId;i<toId;i++){
+			let group = document.getElementById("edge"+(i)+(i+1))
+			edges.push(group)
+		}
+		//console.log(nodes,edges)
+
+
+		for(var i=nodes.length-1;i>=0;i--){
+			var x = parseInt(nodes[i].childNodes[0].getAttribute("cx"))
+			var y = parseInt(nodes[i].childNodes[0].getAttribute("cy"))
+			var edge = document.getElementById("edge"+(i-1)+(i))
+			api.moveNode(nodes[i],x+80,y,edge)
+			
+		}
+
+		for(var i=edges.length-1;i>=0;i--){
+			var x1 = parseInt(edges[i].getAttribute("x1"))
+			var y1 = parseInt(edges[i].getAttribute("y1"))
+			var x2 = parseInt(edges[i].getAttribute("x2"))
+			var y2 = parseInt(edges[i].getAttribute("y2"))
+			// console.log(edges[i].getAttribute("x1"))
+			// console.log(x1,y1,x2,y2)
+
+			api.moveEdge(edges[i],x1+80,y1,x2+80,y2)
+
+		}
+	}
+
+	/////////////////////////////////
 	api.clearCanvas = function(){
 		document.getElementById("svg-edge-layer").innerHTML = ""
 		document.getElementById("svg-node-layer").innerHTML = ""
@@ -647,7 +792,7 @@ var Lib = function(){
 	api.flattenMessages = function(messages){
 		let tempArr = [];
 
-		for(var i=0;i<messages.length;i++){
+		for(var i=0;i<=messages.length;i++){
 			for(var j=0;j<messages[i].length;j++){
 				tempArr.push(messages[i][j])
 			}
@@ -657,115 +802,4 @@ var Lib = function(){
 
 
 	return api;
-}
-
-
-var lib = Lib()
-lib.init()
-
-var messages = []
-var tree = []
-
-
-function updateSlider(){
-	lib.animationMode=0
-	lib.clearCanvas()
-
-	var slider = document.getElementById("timetravel")
-	slider.min =0;
-	slider.max = lib.messages.length
-	
-	sliderVal = slider.value
-	if(sliderVal==0){return}
-	var tempMessages = [];
-	for(var i=0;i<sliderVal;i++){
-		tempMessages.push(lib.messages[i])
-	}
-	console.log(tempMessages)
-	console.log(lib.messages[lib.messages.length-1])
-	lib.animate(tempMessages)
-
-}
-
-insert(tree,50,messages)
-insert(tree,0,messages)
-insert(tree,100,messages)
-insert(tree,1500,messages)
-insert(tree,20,messages)
-insert(tree,40,messages)
-messages = lib.flattenMessages(messages)
-
-lib.animate(messages)
-lib.messages = messages
-///////////////////
-//// HTML DOM INPUT STUFF
-///////////////////
-
-var emptyMessageBox= function(){
-	var box = document.getElementById("messages")
-	box.innerHTML = ""
-}
-
-var InsertIntoTree = function(){
-	lib.animationMode=1
-	lib.resetEdgesAndNodes()
-	var val = document.getElementById("insertVal").value
-	val = parseInt(val)
-	
-	var newMsgs = []
-	insert(tree,val,newMsgs)
-
-	var flattenMessages = lib.flattenMessages(newMsgs)
-	console.log(flattenMessages)
-
-	messages.push(flattenMessages)
-
-	lib.animate(flattenMessages)
-	
-	for(var i=0;i<flattenMessages.length;i++){
-		lib.messages.push(flattenMessages[i])
-	}
-	//console.log(lib.messages)
-}
-
-
-var searchTree = function(){
-	lib.resetEdgesAndNodes()
-	var val = document.getElementById("searchVal").value
-	val = parseInt(val)
-	console.log(val)
-	var messages = []
-
-	search(tree,val,messages)
-	var flattenMessages = lib.flattenMessages(messages)
-	lib.animate(flattenMessages)
-}
-
-var inorderTree = function(){
-	lib.resetEdgesAndNodes()
-	var messages = []
-	emptyMessageBox()
-	inorderTraversal(tree,0,messages)
-	var flattenMessages = lib.flattenMessages(messages)
-	lib.animate(flattenMessages)
-}
-
-var preorderTree = function(){
-	lib.resetEdgesAndNodes()
-	emptyMessageBox()
-	var messages = []
-
-	preorderTraversal(tree,0,messages)
-	var flattenMessages = lib.flattenMessages(messages)
-	lib.animate(flattenMessages)
-}
-
-var postorderTree = function(){
-	lib.resetEdgesAndNodes()
-	emptyMessageBox()
-	var messages = []
-
-	preorderTraversal(tree,0,messages)
-	var flattenMessages = lib.flattenMessages(messages)
-	lib.animate(flattenMessages)
 }
