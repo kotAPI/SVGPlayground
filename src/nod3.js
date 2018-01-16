@@ -69,7 +69,26 @@ var Lib = function() {
         resolve(nodeGroup)
       }, api.timingConfig.redrawFrequency * numFrames)
     })
+  api.deleteNode = (id, duration) => {
+    new Promise((resolve, reject) => {
+      var nodeGroup = document.getElementById('node-group-' + id)
+      var node = nodeGroup.childNodes[0]
+      var radius = parseFloat(node.getAttribute('r'))
 
+      let numFrames = duration / api.timingConfig.redrawFrequency
+
+      for (let step = 0; step <= numFrames; step++) {
+        setTimeout(() => {
+          node.setAttribute('r', radius - radius / numFrames * step)
+        }, api.timingConfig.redrawFrequency * step)
+      }
+
+      setTimeout(() => {
+        nodeGroup.parentElement.removeChild(nodeGroup)
+        resolve(true)
+      }, api.timingConfig.redrawFrequency * numFrames)
+    })
+  }
   api.moveNode = (id, new_x, new_y, duration) =>
     new Promise((resolve, reject) => {
       var nodeGroup = document.getElementById('node-group-' + id)
@@ -174,7 +193,33 @@ var Lib = function() {
         resolve()
       }, api.timingConfig.redrawFrequency * numFrames)
     })
+  }
+  api.deleteEdge = (id, duration) => {
+    new Promise((resolve, reject) => {
+      var edge = document.getElementById(id)
 
+      let numFrames = duration / api.timingConfig.redrawFrequency
+
+      let x1 = parseFloat(edge.getAttribute('x1'))
+      let y1 = parseFloat(edge.getAttribute('y1'))
+      let x2 = parseFloat(edge.getAttribute('x2'))
+      let y2 = parseFloat(edge.getAttribute('y2'))
+
+      let dx = x2 - x1
+      let dy = y2 - y1
+      for (let step = 0; step <= numFrames; step++) {
+        setTimeout(() => {
+          edge.setAttribute('x2', x2 - dx * step)
+          edge.setAttribute('y2', y2 - dy * step)
+        }, api.timingConfig.redrawFrequency * step)
+      }
+
+      setTimeout(() => {
+        edge.parentElement.removeChild(edge)
+        resolve(edge)
+      }, api.timingConfig.redrawFrequency * numFrames)
+    })
+  }
   api.moveEdge = (fromNode, toNode, new_x1, new_y1, new_x2, new_y2, duration) =>
     new Promise((resolve, reject) => {
       var edge = document.getElementById('edge' + fromNode + '-' + toNode)

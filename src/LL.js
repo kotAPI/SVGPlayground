@@ -285,24 +285,100 @@ var LinkedList = function() {
   api.printList = function() {
     var currentNode = api.head
     while (currentNode !== null) {
+      console.log(currentNode.value)
       currentNode = currentNode.next
     }
   }
   api.removeNode = function(val) {
     let currentNode = api.head
+    let index = 0
 
+    if (currentNode.next === null && api.head.value === val) {
+      api.head = null
+      lib.deleteNode(index, 200)
+      return
+    }
+    if (api.head.next !== null && api.head.value === val) {
+      api.head = currentNode.next
+      lib.deleteNode(0, 200)
+      return
+    }
     while (currentNode !== null) {
-      if (currentNode.value === val) {
+      if (currentNode.next.value === val) {
         //
+        let length = api.listLength()
+        lib
+          .moveNode(index + 1, LEFTOFFSET * index + CANVASOFFSET, 300, 200)
+          .then(() => {
+            lib
+              .moveEdge(
+                index + 1,
+                index + 2,
+                LEFTOFFSET * index + CANVASOFFSET,
+                300,
+                LEFTOFFSET * (index + 1) + CANVASOFFSET,
+                200,
+                200
+              )
+              .then(() => {
+                lib
+                  .moveEdge(
+                    index,
+                    index + 1,
+                    LEFTOFFSET * index + CANVASOFFSET,
+                    200,
+                    LEFTOFFSET * (index + 2) + CANVASOFFSET,
+                    200,
+                    100
+                  )
+                  .then(() => {
+                    for (var i = length - 2; i >= index + 1; i--) {
+                      if (i !== index + 1) {
+                        lib.moveEdge(
+                          i,
+                          i + 1,
+                          LEFTOFFSET * (i - 1) + CANVASOFFSET,
+                          200,
+                          LEFTOFFSET * i + CANVASOFFSET,
+                          200,
+                          200
+                        )
+                        lib.changeEdgeID(
+                          'edge' + i + '-' + (i + 1),
+                          'edge' + (i - 1) + '-' + i
+                        )
+                      }
+                    }
+                    for (var j = length - 2; j > index - 1; j--) {
+                      if (index + 1 !== j + 1) {
+                        lib.moveNode(
+                          j + 1,
+                          LEFTOFFSET * j + CANVASOFFSET,
+                          200,
+                          200
+                        )
+                        lib.changeNodeID(j + 1, j)
+                      }
+                    }
+                  })
+                lib.deleteEdge('edge' + (index + 1) + '-' + (index + 2), 20)
+                lib.deleteNode(index + 1, 200)
+              })
+          })
+
+        //
+
+        currentNode.next = currentNode.next.next
+        return
       }
       currentNode = currentNode.next
+      index++
     }
   }
   return api
 }
 
 var LL = LinkedList()
-
 LL.addToList(1)
 LL.addToList(2)
 LL.addToList(3)

@@ -1,0 +1,258 @@
+<html>
+    
+    <head>
+      <title></title>
+      <link rel="stylesheet" href="css/app.css">
+      <script src="src/nod3.js"></script>
+      
+      <style>
+        body{
+          margin:0;
+          padding:0;
+        }
+        #svg-container{
+          display: block;
+          margin: auto;
+        }
+        input{
+          margin-bottom: 10px;
+          width:200px;
+          height: 30px;
+        
+        }
+        button{
+          padding: 0px 10px;
+          height: 30px;
+          color: white;
+          background-color: #03A9F4;
+          outline: none;
+          border: 0;
+          
+          border-radius: 30px;
+          transition: all 0.1s;
+        }
+        button:disabled{
+          color:#43da0f;
+          opacity : 0;
+        }
+        button:hover{
+          color:white;
+          cursor: pointer;
+        }
+        button:active{
+          background-color: #2d7fa5;
+        }
+        #dockerbutton2{
+          background-color: #ff9800;
+          height: 96px;
+          border-radius: 3px;
+          font-size: 2em;
+        }
+        #dockerbutton2:active{
+          background-color: #d47f03;
+        }
+        .docker{
+          padding: 40px;
+          height: 100%;
+          top: 0px;
+          right: -800px;
+          width: 800px;
+          border: 1px solid black;
+          position: fixed;
+          background-color: white;
+          box-sizing: border-box;
+          transition: all 0.4s;
+          overflow-y: scroll;
+          
+        }
+        .docker-toggler{
+          padding:4px 20px 10px 20px;
+          bottom:80px;
+          position: fixed;
+          right:10px;
+          background-color: green;
+          color:white;
+          cursor: default;
+        }
+        .docker>h1,h2,h3,h4,h5,h6{
+          font-family: 'Lato', sans-serif;
+          padding:5px;
+          margin:4px;
+        }
+        .messagebox{
+          font-family: 'Lato', sans-serif;
+          padding:10px;
+          box-sizing: border-box;
+        }
+        .sliderlabel{
+          font-family: 'Lato', sans-serif;
+          position: relative;
+          top: -8px;
+        }
+        #docker-toggle-button{
+          transition: all 0.4s;
+          transform: rotate(0deg);
+        }
+        .node{
+          width: 30px;
+          height: 30px;
+          text-align: center;
+          line-height: 30px;
+          display: inline-block;
+          border-radius: 100px;
+          margin: 4px;
+          box-shadow: 1px 1px 12px rgba(0,0,0,0.5);
+          background-color: #38d486;
+        }
+        pre{
+          padding:10px 0px;
+          background-color: #f5f5f5;
+        }
+        </style>
+    </head>
+    
+    <body>
+        <div>
+            <div >
+              <div >
+                <svg id="svg-container">
+                
+                </svg>
+        
+                <div style="width: 800px;margin: auto;">
+                  <div style="width:50%;float:left">
+                         <!--  <div>
+                            <span  class="sliderlabel">Slow</span>
+                            <input type="range" id="viz-slider">
+                            <span  class="sliderlabel">Fast</span>  
+                        </div> -->
+                        <div >
+                          
+                          
+                        </div>
+                       <div>
+                         <div>
+                            <label for="index">Index</label>
+                            <input id="index" type="text">
+                         </div>
+                        <div>
+                            <label for="data">Data</label>
+                            <input id="data" type="text">
+                        </div>
+                          
+                          <button id="insertButton" onclick="insertAtLinkedList()">Insert</button>
+                       </div>
+                        <!-- <div>
+                          <input id="insertAt" type="text">
+                          <button id="insertButton" onclick="insertAtList()">Insert At</button>
+                       </div> -->
+                    </div>
+                    
+                  
+        
+                    <div style="width:50%;float:left">
+                      <div class="messagebox">
+                        
+                        <div id="messages">
+                          
+                        </div>
+        
+                      </div>
+                    </div>
+                </div>
+            </div>
+      
+            <div class="docker" id="dockermain">
+              <div >
+                <div >
+            
+                    <h2>Inserting at a position in a Linked List</h2>
+                    
+                      <h5>Psuedo-code:</h5>
+                      <pre>
+          insert (int data, int position){
+            Node myNode = new Node(data)
+            if(head == null)
+                head = myNode
+            else {
+                if(position==0)
+                {
+                    myNode.next = first
+                    first = myNode
+                }
+                else{
+                    Node tempNode = first
+                    for(int i =0;i< position-1;i++)
+                        {
+                            tempNode = tempNode.next
+                        }
+                    myNode.next = tempNode.next
+                    tempNode.next = myNode
+                }
+            }
+                    </pre>
+    
+            
+              
+            </div>
+            </div>
+            </div>
+            <button id="dockerbutton2" class="docker-toggler">
+              <div id="docker-toggle-button"><</div>
+            </button>
+      <script src="src/LL.js"></script>
+    
+      <script>
+        function insertAtLinkedList(){
+          let index = parseInt(document.getElementById("index").value)
+          let data = parseInt(document.getElementById("data").value)
+
+          LL.addNodeAt(index,data)
+          LL.printList()
+        }
+    
+        function insertIntoLinkedList(){
+          var val = document.getElementById("insert").value;
+          val = parseInt(val);
+          LL.addToList(val)
+          
+        }
+        
+        function removeFromLinkedList(){
+          var val = document.getElementById("remove").value;
+          val = parseInt(val);
+    
+          LL.removeNode(val)
+         // LL.printList()  
+        }
+    
+    
+    
+    
+    
+      var dockerbutton2 = document.getElementById("dockerbutton2")
+      var docker = document.getElementById("dockermain");
+      var dockerbuttontoggler = document.getElementById("docker-toggle-button")
+      docker.style.right = "-800px"
+      dockerbuttontoggler.style.transform = "rotate(0deg)"
+      
+      dockerbutton2.addEventListener("click",()=>{
+        
+      var docker = document.getElementById("dockermain");
+        
+    
+      var mode = docker.style.right
+      
+      if(mode == "-800px"){
+        docker.style.right="0px"
+        dockerbuttontoggler.style.transform = "rotate(180deg)"
+      }
+      else{
+        docker.style.right="-800px"
+        dockerbuttontoggler.style.transform = "rotate(0deg)"
+      }
+      })
+      </script>
+    </body>
+    
+    </html>
