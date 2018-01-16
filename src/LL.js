@@ -64,19 +64,34 @@ var LinkedList = function() {
         )
       })
   }
-  api.traverseList = index => {
+
+  api.traverseListByIndex = (index, duration) =>
     new Promise((resolve, reject) => {
       let currentNode = api.head
-      index = 0
+      let currIndex = 0
+      let indexesToTraverse = []
 
-      while (currentNode !== null) {
-        lib.selectNode(index)
+      while (currentNode !== null && currIndex <= index) {
+        indexesToTraverse.push(currIndex)
         currentNode = currentNode.next
-        index++
+        currIndex++
       }
-      resolve()
+
+      let P = Promise.resolve() // initial Promise always resolves
+      indexesToTraverse.forEach(function(index) {
+        P = P.then(function() {
+          return new Promise(resolve => {
+            lib.highlightNode(index, duration).then(() => resolve(index))
+          })
+        }).then(function() {
+          return new Promise(resolve => {
+            lib.selectNode(index, duration).then(() => resolve(index))
+          })
+        })
+      })
+      P.then(() => resolve())
     })
-  }
+
   api.addNodeAt = function(index, value) {
     let currentNode = api.head
     let newNode = api.createNode(value)
@@ -289,6 +304,10 @@ var LinkedList = function() {
 var LL = LinkedList()
 
 LL.addToList(1)
+LL.addToList(2)
+LL.addToList(3)
+LL.addToList(4)
+LL.addToList(5)
 
 /*
 
