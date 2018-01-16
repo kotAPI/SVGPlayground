@@ -5,8 +5,7 @@ var Lib = function() {
   api.colorPalette = {
     red: 'rgba(255,0,0,1)',
     transparent: 'rgba(0,0,0,0)',
-    white: 'rgb(255,255,255)',
-
+    white: 'rgb(255,255,255)'
   }
 
   api.timingConfig = {
@@ -96,14 +95,13 @@ var Lib = function() {
         resolve(node)
       }, api.timingConfig.redrawFrequency * numFrames)
     })
-  api.selectNode = (nodeID,duration) =>{
-    new Promise(()=>{
-      
+  api.selectNode = (nodeID, duration) => {
+    new Promise(() => {
       let nodeGroup = document.getElementById('node-group-' + nodeID)
       let node = nodeGroup.childNodes[0]
       let text = nodeGroup.childNodes[1]
-      node.setAttribute("fill",api.colorPalette.red)
-    })    
+      node.setAttribute('fill', api.colorPalette.red)
+    })
   }
   api.moveEdge = (fromNode, toNode, new_x1, new_y1, new_x2, new_y2, duration) =>
     new Promise((resolve, reject) => {
@@ -153,6 +151,7 @@ var Lib = function() {
       edge.setAttribute('id', 'edge' + fromNode + '-' + toNode)
       edge.setAttribute('stroke-width', 2)
       edge.setAttribute('stroke', 'red')
+
       edge.setAttribute('x1', x1)
       edge.setAttribute('y1', y1)
       edge.setAttribute('x2', x1)

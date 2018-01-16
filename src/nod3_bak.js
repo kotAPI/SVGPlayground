@@ -1,6 +1,6 @@
 /*eslint no-debugger: 0*/
 
-var Lib = function () {
+var Lib = function() {
   var api = {}
   api.color = {
     color1: [0, 255, 0],
@@ -16,14 +16,14 @@ var Lib = function () {
   api.animationMode = 1
   // FUNCTIONS
   ///
-  api.init = function () {
+  api.init = function() {
     var svgCanvas = document.getElementById('svg-container')
 
     svgCanvas.setAttribute('width', CONFIG.canvas.width)
     svgCanvas.setAttribute('height', CONFIG.canvas.height)
   }
 
-  api.beginAnimation = function () {
+  api.beginAnimation = function() {
     api.executing = true
     var buttons = document.getElementsByClassName('actionbutton')
 
@@ -32,7 +32,7 @@ var Lib = function () {
     }
   }
 
-  api.endAnimation = function () {
+  api.endAnimation = function() {
     api.executing = false
     var buttons = document.getElementsByClassName('actionbutton')
 
@@ -41,7 +41,7 @@ var Lib = function () {
     }
   }
 
-  api.nodeExists = function (id) {
+  api.nodeExists = function(id) {
     var node = document.getElementById('node' + id)
     if (node !== null) {
       return true
@@ -49,10 +49,10 @@ var Lib = function () {
       return false
     }
   }
-  api.printMessage = function (message) {
+  api.printMessage = function(message) {
     console.log(message)
   }
-  api.q_createNode = function (id, x, y, val) {
+  api.q_createNode = function(id, x, y, val) {
     var svg = document.getElementById('svg-container')
     var nodeLayer = document.getElementById('svg-node-layer')
 
@@ -100,7 +100,7 @@ var Lib = function () {
     //api.resetEdgesAndNodes()
   }
 
-  api.createNode = function (id, x, y, val) {
+  api.createNode = function(id, x, y, val) {
     var svg = document.getElementById('svg-container')
     var nodeLayer = document.getElementById('svg-node-layer')
 
@@ -155,7 +155,7 @@ var Lib = function () {
     api.h_animateCreateNode(circle, radius)
   }
 
-  api.h_animateCreateNode = function (node, maxRad) {
+  api.h_animateCreateNode = function(node, maxRad) {
     var radius = parseFloat(node.getAttribute('r'))
     var strokeWidth = parseFloat(node.getAttribute('stroke-width'))
 
@@ -183,37 +183,37 @@ var Lib = function () {
     }
   }
 
-  api.q_highlightNode = function (id) {
+  api.q_highlightNode = function(id) {
     var node = document.getElementById('node' + id)
 
     node.setAttribute(
       'fill',
       'rgb(' +
-      api.color.color1[0] +
-      ',' +
-      api.color.color1[1] +
-      ',' +
-      api.color.color1[2] +
-      ')'
+        api.color.color1[0] +
+        ',' +
+        api.color.color1[1] +
+        ',' +
+        api.color.color1[2] +
+        ')'
     )
   }
 
-  api.q_highlightNode2 = function (id) {
+  api.q_highlightNode2 = function(id) {
     var node = document.getElementById('node' + id)
 
     node.setAttribute(
       'fill',
       'rgb(' +
-      api.color.color4[0] +
-      ',' +
-      api.color.color4[1] +
-      ',' +
-      api.color.color4[2] +
-      ')'
+        api.color.color4[0] +
+        ',' +
+        api.color.color4[1] +
+        ',' +
+        api.color.color4[2] +
+        ')'
     )
   }
 
-  api.highlightNode = function (id) {
+  api.highlightNode = function(id) {
     var node = document.getElementById('node' + id)
     api.beginAnimation()
     var color = node.getAttribute('fill')
@@ -258,21 +258,21 @@ var Lib = function () {
       api.endAnimation()
     }
   }
-  api.q_selectNode = function (id) {
+  api.q_selectNode = function(id) {
     var node = document.getElementById('node' + id)
 
     node.setAttribute(
       'fill',
       'rgb(' +
-      api.color.color1[0] +
-      ',' +
-      api.color.color1[1] +
-      ',' +
-      api.color.color1[2] +
-      ')'
+        api.color.color1[0] +
+        ',' +
+        api.color.color1[1] +
+        ',' +
+        api.color.color1[2] +
+        ')'
     )
   }
-  api.selectNode = function (id) {
+  api.selectNode = function(id) {
     var node = document.getElementById('node' + id)
     api.beginAnimation()
     var color = node.getAttribute('fill')
@@ -315,17 +315,17 @@ var Lib = function () {
       node.setAttribute(
         'fill',
         'rgb(' +
-        api.color.color3[0] +
-        ',' +
-        api.color.color3[1] +
-        ',' +
-        api.color.color3[2] +
-        ')'
+          api.color.color3[0] +
+          ',' +
+          api.color.color3[1] +
+          ',' +
+          api.color.color3[2] +
+          ')'
       )
       api.endAnimation()
     }
   }
-  api.resetEdgesAndNodes = function () {
+  api.resetEdgesAndNodes = function() {
     var nodes = document.getElementsByTagName('circle')
     var resetColor =
       'rgb(' +
@@ -346,7 +346,7 @@ var Lib = function () {
       edges[i].setAttribute('stroke-width', 2)
     }
   }
-  api.q_createEdge = function (from_edge, to_edge, x1, y1, x2, y2) {
+  api.q_createEdge = function(from_edge, to_edge, x1, y1, x2, y2) {
     var svg = document.getElementById('svg-container')
     var edgeLayer = document.getElementById('svg-edge-layer')
 
@@ -367,17 +367,17 @@ var Lib = function () {
     edge.setAttribute(
       'stroke',
       'rgb(' +
-      api.color.color1[0] +
-      ',' +
-      api.color.color1[1] +
-      ',' +
-      api.color.color1[2] +
-      ')'
+        api.color.color1[0] +
+        ',' +
+        api.color.color1[1] +
+        ',' +
+        api.color.color1[2] +
+        ')'
     )
 
     edgeLayer.append(edge)
   }
-  api.createEdge = function (from_edge, to_edge, x1, y1, x2, y2) {
+  api.createEdge = function(from_edge, to_edge, x1, y1, x2, y2) {
     var svg = document.getElementById('svg-container')
     var edgeLayer = document.getElementById('svg-edge-layer')
 
@@ -415,7 +415,7 @@ var Lib = function () {
     edgeLayer.append(edge)
     api.h_animateEdge(edge, x1, y1, x2, y2)
   }
-  api.h_animateEdge = function (edge, x1, y1, x2, y2) {
+  api.h_animateEdge = function(edge, x1, y1, x2, y2) {
     api.beginAnimation()
 
     var curr_x = parseFloat(edge.getAttribute('x2'))
@@ -433,8 +433,6 @@ var Lib = function () {
         curr_x -= velocity
       }
 
-
-
       if (Math.abs(slope) !== Infinity) {
         curr_y = slope * (curr_x - x2) + y2
       } else {
@@ -444,7 +442,6 @@ var Lib = function () {
           curr_y = curr_y + velocity
         }
       }
-
 
       if (Math.ceil(curr_y) === y2) {
         curr_y = Math.ceil(curr_y)
@@ -460,14 +457,14 @@ var Lib = function () {
     }
   }
 
-  api.deleteEdge = function (from_edge, to_edge) {
+  api.deleteEdge = function(from_edge, to_edge) {
     var edge = document.getElementById('edge' + from_edge + '-' + to_edge)
 
     var velocity = 1 * api.gameSpeed
     api.h_del_animateEdge(edge, velocity)
   }
 
-  api.h_del_animateEdge = function (edge, speed) {
+  api.h_del_animateEdge = function(edge, speed) {
     api.beginAnimation()
     var x1 = parseFloat(edge.getAttribute('x1'))
     var y1 = parseFloat(edge.getAttribute('y1'))
@@ -507,7 +504,7 @@ var Lib = function () {
       edge.parentNode.removeChild(edge)
     }
   }
-  api.q_highlightEdge = function (from_edge, to_edge) {
+  api.q_highlightEdge = function(from_edge, to_edge) {
     var edge = document.getElementById('edge' + from_edge + '-' + to_edge)
     edge.setAttribute('stroke-width', 2)
     edge.setAttribute(
@@ -522,7 +519,7 @@ var Lib = function () {
       'black'
     )
   }
-  api.highlightEdge = function (from_edge, to_edge) {
+  api.highlightEdge = function(from_edge, to_edge) {
     api.beginAnimation()
     var edge = document.getElementById('edge' + from_edge + '-' + to_edge)
 
@@ -552,35 +549,35 @@ var Lib = function () {
       api.endAnimation()
     }
   }
-  api.q_selectEdge = function (from_edge, to_edge) {
+  api.q_selectEdge = function(from_edge, to_edge) {
     var edge = document.getElementById('edge' + from_edge + '-' + to_edge)
     edge.setAttribute('stroke-width', 4)
     edge.setAttribute(
       'stroke',
       'rgb(' +
-      api.color.color3[0] +
-      ',' +
-      api.color.color3[1] +
-      ',' +
-      api.color.color3[2] +
-      ')'
+        api.color.color3[0] +
+        ',' +
+        api.color.color3[1] +
+        ',' +
+        api.color.color3[2] +
+        ')'
     )
   }
-  api.selectEdge = function (from_edge, to_edge) {
+  api.selectEdge = function(from_edge, to_edge) {
     var edge = document.getElementById('edge' + from_edge + '-' + to_edge)
     edge.setAttribute('stroke-width', 4)
     edge.setAttribute(
       'stroke',
       'rgb(' +
-      api.color.color3[0] +
-      ',' +
-      api.color.color3[1] +
-      ',' +
-      api.color.color3[2] +
-      ')'
+        api.color.color3[0] +
+        ',' +
+        api.color.color3[1] +
+        ',' +
+        api.color.color3[2] +
+        ')'
     )
   }
-  api.animate = function (messages) {
+  api.animate = function(messages) {
     if (messages.length < 1) {
       return
     }
@@ -673,7 +670,7 @@ var Lib = function () {
     }, api.gameSpeed)
   }
   /////////////////////////////////
-  api.animateLinkedList = function (messages) {
+  api.animateLinkedList = function(messages) {
     if (messages.length < 1) {
       return
     }
@@ -688,11 +685,19 @@ var Lib = function () {
           )
         }
         if (messages[i].msg === 'MOVE_EDGE') {
-          var edge = document.getElementById("edge" + messages[i].params.from + "-" + messages[i].params.to)
-          let x1 = parseInt(edge.getAttribute("x1"))
-          let y1 = parseInt(edge.getAttribute("y1"))
+          var edge = document.getElementById(
+            'edge' + messages[i].params.from + '-' + messages[i].params.to
+          )
+          let x1 = parseInt(edge.getAttribute('x1'))
+          let y1 = parseInt(edge.getAttribute('y1'))
 
-          api.moveEdge(edge, x1, y1, messages[i].params.newx2, messages[i].params.newy2)
+          api.moveEdge(
+            edge,
+            x1,
+            y1,
+            messages[i].params.newx2,
+            messages[i].params.newy2
+          )
         }
         if (messages[i].msg === 'MOVE_NODE_WITH_CONNECTED_EDGES') {
           api.moveNodeWithEdges(
@@ -802,9 +807,12 @@ var Lib = function () {
           }
         }
         if (messages[i].msg === 'PRINT_MESSAGE') {
-
-          api.printMessage(messages[i].params.message + "- " + messages[i].params.val + " Not found")
-
+          api.printMessage(
+            messages[i].params.message +
+              '- ' +
+              messages[i].params.val +
+              ' Not found'
+          )
         }
         i++
       }
@@ -813,32 +821,31 @@ var Lib = function () {
       }
     }, 40)
   }
-  api.moveEdge = function (edge, new_x1, new_y1, new_x2, new_y2, duration) {
-
+  api.moveEdge = function(edge, new_x1, new_y1, new_x2, new_y2, duration) {
     var x1 = parseInt(edge.getAttribute('x1'))
     var y1 = parseInt(edge.getAttribute('y1'))
     var x2 = parseInt(edge.getAttribute('x2'))
     var y2 = parseInt(edge.getAttribute('y2'))
-    let numFrames = duration / 15;
+    let numFrames = duration / 15
 
-    let dx1 = (new_x1 - x1) / (numFrames)
-    let dx2 = (new_x2 - x2) / (numFrames)
-    let dy1 = (new_y1 - y1) / (numFrames)
-    let dy2 = (new_y2 - y2) / (numFrames)
-    
+    let dx1 = (new_x1 - x1) / numFrames
+    let dx2 = (new_x2 - x2) / numFrames
+    let dy1 = (new_y1 - y1) / numFrames
+    let dy2 = (new_y2 - y2) / numFrames
+
     for (let step = 0; step < numFrames; step++) {
       setTimeout(() => {
-        edge.setAttribute("x1", x1 + dx1 * step)
-        edge.setAttribute("y1", y1 + dy1 * step)
-        edge.setAttribute("x2", x2 + dx2 * step)
-        edge.setAttribute("y2", y2 + dy2 * step)
+        edge.setAttribute('x1', x1 + dx1 * step)
+        edge.setAttribute('y1', y1 + dy1 * step)
+        edge.setAttribute('x2', x2 + dx2 * step)
+        edge.setAttribute('y2', y2 + dy2 * step)
       }, 15 * step)
     }
     setTimeout(() => {
-      console.log("finished")
+      console.log('finished')
     }, 15 * numFrames)
   }
-  api.moveNode = function (nodeGroup, x, y) {
+  api.moveNode = function(nodeGroup, x, y) {
     api.beginAnimation()
     if (typeof nodeGroup === 'object') {
       nodeGroup = nodeGroup
@@ -889,7 +896,7 @@ var Lib = function () {
       api.endAnimation()
     }
   }
-  api.moveNodeWithRightEdge = function (nodeGroup, x, y) {
+  api.moveNodeWithRightEdge = function(nodeGroup, x, y) {
     api.beginAnimation()
     if (typeof nodeGroup === 'object') {
       nodeGroup = nodeGroup
@@ -900,8 +907,8 @@ var Lib = function () {
     // var nodeGroup = document.getElementById("node-group-"+id)
     var circle = nodeGroup.childNodes[0]
     var text = nodeGroup.childNodes[1]
-    var id = parseInt(nodeGroup.getAttribute("id").replace("node-group-", ''))
-    var edge = document.getElementById("edge" + (id) + "-" + (id + 1))
+    var id = parseInt(nodeGroup.getAttribute('id').replace('node-group-', ''))
+    var edge = document.getElementById('edge' + id + '-' + (id + 1))
 
     x = Math.floor(x)
     y = Math.floor(y)
@@ -930,18 +937,15 @@ var Lib = function () {
         }
       }
       //// UPDATED EDGES WHILE CONNECTED TO THE NODE SO THEY MOVE WID IT B-)
-      edge.setAttribute("x1", curr_x)
-      edge.setAttribute("y1", curr_y)
+      edge.setAttribute('x1', curr_x)
+      edge.setAttribute('y1', curr_y)
 
-
-
-
-
-      var node2_toStickTo = document.getElementById("node-group-" + (id + 1)).childNodes[0]
-      var node2_x = parseFloat(node2_toStickTo.getAttribute("cx"))
-      var node2_y = parseFloat(node2_toStickTo.getAttribute("cy"))
-      edge.setAttribute("x2", node2_x)
-      edge.setAttribute("y2", node2_y)
+      var node2_toStickTo = document.getElementById('node-group-' + (id + 1))
+        .childNodes[0]
+      var node2_x = parseFloat(node2_toStickTo.getAttribute('cx'))
+      var node2_y = parseFloat(node2_toStickTo.getAttribute('cy'))
+      edge.setAttribute('x2', node2_x)
+      edge.setAttribute('y2', node2_y)
       // END OF UPDATE NODES
 
       circle.setAttribute('cx', curr_x)
@@ -950,14 +954,13 @@ var Lib = function () {
       text.setAttribute('y', curr_y)
 
       setTimeout(() => {
-
         api.moveNodeWithRightEdge(nodeGroup, x, y)
       }, api.gameSpeed)
     } else {
       api.endAnimation()
     }
   }
-  api.moveNodeWithEdges = function (nodeGroup, x, y) {
+  api.moveNodeWithEdges = function(nodeGroup, x, y) {
     api.beginAnimation()
     if (typeof nodeGroup === 'object') {
       nodeGroup = nodeGroup
@@ -968,9 +971,9 @@ var Lib = function () {
     // var nodeGroup = document.getElementById("node-group-"+id)
     var circle = nodeGroup.childNodes[0]
     var text = nodeGroup.childNodes[1]
-    var id = parseInt(nodeGroup.getAttribute("id").replace("node-group-", ''))
-    var edge1 = document.getElementById("edge" + (id - 1) + "-" + id)
-    var edge2 = document.getElementById("edge" + (id) + "-" + (id + 1))
+    var id = parseInt(nodeGroup.getAttribute('id').replace('node-group-', ''))
+    var edge1 = document.getElementById('edge' + (id - 1) + '-' + id)
+    var edge2 = document.getElementById('edge' + id + '-' + (id + 1))
 
     x = Math.floor(x)
     y = Math.floor(y)
@@ -999,19 +1002,18 @@ var Lib = function () {
         }
       }
       //// UPDATED EDGES WHILE CONNECTED TO THE NODE SO THEY MOVE WID IT B-)
-      edge1.setAttribute("x2", curr_x)
-      edge1.setAttribute("y2", curr_y)
+      edge1.setAttribute('x2', curr_x)
+      edge1.setAttribute('y2', curr_y)
 
+      edge2.setAttribute('x1', curr_x)
+      edge2.setAttribute('y1', curr_y)
 
-
-      edge2.setAttribute("x1", curr_x)
-      edge2.setAttribute("y1", curr_y)
-
-      var node2_toStickTo = document.getElementById("node-group-" + (id + 1)).childNodes[0]
-      var node2_x = parseFloat(node2_toStickTo.getAttribute("cx"))
-      var node2_y = parseFloat(node2_toStickTo.getAttribute("cy"))
-      edge2.setAttribute("x2", node2_x)
-      edge2.setAttribute("y2", node2_y)
+      var node2_toStickTo = document.getElementById('node-group-' + (id + 1))
+        .childNodes[0]
+      var node2_x = parseFloat(node2_toStickTo.getAttribute('cx'))
+      var node2_y = parseFloat(node2_toStickTo.getAttribute('cy'))
+      edge2.setAttribute('x2', node2_x)
+      edge2.setAttribute('y2', node2_y)
       // END OF UPDATE NODES
 
       circle.setAttribute('cx', curr_x)
@@ -1026,14 +1028,14 @@ var Lib = function () {
       api.endAnimation()
     }
   }
-  api.wait = function () {
+  api.wait = function() {
     api.beginAnimation()
 
     setTimeout(() => {
       api.endAnimation()
     }, 12000)
   }
-  api.moveLinkedListGroup = function (fromId, toId, direction) {
+  api.moveLinkedListGroup = function(fromId, toId, direction) {
     var nodes = []
     var edges = []
     for (let i = fromId; i <= toId; i++) {
@@ -1075,17 +1077,16 @@ var Lib = function () {
         'edge' + (edgeFrom + direction) + '-' + (edgeTo + direction)
       )
       api.moveEdge(edges[i], x1 + 80 * direction, y1, x2 + 80 * direction, y2)
-
     }
   }
 
   /////////////////////////////////
-  api.clearCanvas = function () {
+  api.clearCanvas = function() {
     document.getElementById('svg-edge-layer').innerHTML = ''
     document.getElementById('svg-node-layer').innerHTML = ''
   }
 
-  api.flattenMessages = function (messages) {
+  api.flattenMessages = function(messages) {
     // let tempArr = []
 
     // for (let i = 0; i <= messages.length; i++) {
