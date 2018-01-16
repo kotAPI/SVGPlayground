@@ -3,8 +3,8 @@ var Lib = function() {
 
   /* API config */
   api.colorPalette = {
-    red: 'rgba(255,0,0,1)',
-    transparent: 'rgba(0,0,0,0)',
+    red: 'rgb(255,0,0)',
+    transparent: 'rgb(0,0,0)',
     white: 'rgb(255,255,255)'
   }
 
@@ -69,6 +69,7 @@ var Lib = function() {
         resolve(nodeGroup)
       }, api.timingConfig.redrawFrequency * numFrames)
     })
+
   api.moveNode = (id, new_x, new_y, duration) =>
     new Promise((resolve, reject) => {
       var nodeGroup = document.getElementById('node-group-' + id)
@@ -95,14 +96,85 @@ var Lib = function() {
         resolve(node)
       }, api.timingConfig.redrawFrequency * numFrames)
     })
-  api.selectNode = (nodeID, duration) => {
-    new Promise(() => {
+
+  api.highlightNode = (nodeID, duration) =>
+    new Promise((resolve, reject) => {
+      let nodeGroup = document.getElementById('node-group-' + nodeID)
+      let node = nodeGroup.childNodes[0]
+      // let text = nodeGroup.childNodes[1]
+      let numFrames = duration / api.timingConfig.redrawFrequency
+
+      let { r: r1, g: g1, b: b1 } = api.parseColor(node.getAttribute('fill'))
+      let { r: r2, g: g2, b: b2 } = api.parseColor(api.colorPalette.red)
+
+      let dr = (r2 - r1) / numFrames
+      let dg = (g2 - g1) / numFrames
+      let db = (b2 - b1) / numFrames
+
+      for (let step = 0; step < numFrames; step++) {
+        setTimeout(() => {
+          let [r, g, b] = [
+            parseInt(r1 + dr * step),
+            parseInt(g1 + dg * step),
+            parseInt(b1 + db * step)
+          ]
+          node.setAttribute('fill', `rgb(${r},  ${g}, ${b})`)
+          node.setAttribute('stroke', `rgb(${r},  ${g}, ${b})`)
+        }, api.timingConfig.redrawFrequency * step)
+      }
+      setTimeout(() => {
+        resolve()
+      }, api.timingConfig.redrawFrequency * numFrames)
+    })
+
+  api.selectNode = (nodeID, duration) =>
+    new Promise((resolve, reject) => {
       let nodeGroup = document.getElementById('node-group-' + nodeID)
       let node = nodeGroup.childNodes[0]
       let text = nodeGroup.childNodes[1]
-      node.setAttribute('fill', api.colorPalette.red)
+      let numFrames = duration / api.timingConfig.redrawFrequency
+
+      // reset colour to white
+      let { r: r1, g: g1, b: b1 } = api.parseColor(node.getAttribute('fill'))
+      let { r: r2, g: g2, b: b2 } = api.parseColor(api.colorPalette.white)
+
+      let dr = (r2 - r1) / numFrames
+      let dg = (g2 - g1) / numFrames
+      let db = (b2 - b1) / numFrames
+
+      for (let step = 0; step < numFrames; step++) {
+        setTimeout(() => {
+          let [r, g, b] = [
+            parseInt(r1 + dr * step),
+            parseInt(g1 + dg * step),
+            parseInt(b1 + db * step)
+          ]
+          node.setAttribute('fill', `rgb(${r},  ${g}, ${b})`)
+        }, api.timingConfig.redrawFrequency * step)
+      }
+      setTimeout(() => {
+        resolve()
+      }, api.timingConfig.redrawFrequency * numFrames)
+
+      // change stroke colour
+      node.setAttribute('stroke', api.colorPalette.red)
+      text.setAttribute('fill', api.colorPalette.red)
+
+      // increase stroke width
+      let sw1 = parseInt(node.getAttribute('stroke-width'))
+      let sw2 = 8
+      let ds = (sw2 - sw1) / numFrames
+
+      for (let step = 0; step < numFrames; step++) {
+        setTimeout(() => {
+          node.setAttribute('stroke-width', sw1 + ds * step)
+        }, api.timingConfig.redrawFrequency * step)
+      }
+      setTimeout(() => {
+        resolve()
+      }, api.timingConfig.redrawFrequency * numFrames)
     })
-  }
+
   api.moveEdge = (fromNode, toNode, new_x1, new_y1, new_x2, new_y2, duration) =>
     new Promise((resolve, reject) => {
       var edge = document.getElementById('edge' + fromNode + '-' + toNode)
@@ -173,14 +245,30 @@ var Lib = function() {
       }, api.timingConfig.redrawFrequency * numFrames)
     })
 
+  /* utils */
+
   api.changeNodeID = function(oldID, newID) {
     var nodeGroup = document.getElementById('node-group-' + oldID)
     nodeGroup.setAttribute('id', 'node-group-' + newID)
     nodeGroup.childNodes[0].setAttribute('id', 'node' + newID)
   }
+
   api.changeEdgeID = function(oldID, newID) {
     var edge = document.getElementById(oldID)
     edge.setAttribute('id', newID)
+  }
+
+  api.parseColor = color => {
+    const rgb = color
+      .substring(4, color.length - 1)
+      .replace(/ /g, '')
+      .split(',')
+
+    return {
+      r: parseInt(rgb[0]),
+      g: parseInt(rgb[1]),
+      b: parseInt(rgb[2])
+    }
   }
   return api
 }
