@@ -218,7 +218,7 @@ var Lib = function() {
 
       setTimeout(() => {
         edge.parentElement.removeChild(edge)
-        resolve(edge)
+        resolve()
       }, api.timingConfig.redrawFrequency * numFrames)
     })
 

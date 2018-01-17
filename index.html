@@ -139,8 +139,8 @@
                       <button id="insertButton" onclick="insertIntoLinkedList()">Insert</button>
                     </div>
                    <div>
-                      <input id="search" type="text">
-                      <button id="insertButton" onclick="searchforNode()">Search</button>
+                      <input id="remove" type="text">
+                      <button id="insertButton" onclick="removeFromList()">Remove</button>
                    </div>
                     <!-- <div>
                       <input id="insertAt" type="text">
@@ -220,17 +220,16 @@
   		LL.addToList(val)
     }
     
-    function searchforNode(){
+   
+     
+
+    function removeFromList(){
       lib.resetAll()
       LL.resetMessage()
-      var val = document.getElementById("search").value;
+  		var val = document.getElementById("remove").value;
   		val = parseInt(val);
-
-      LL.searchListByValue(val)
-     // LL.printList()  
+  		LL.removeNode(val)
     }
-
-
 
 
 

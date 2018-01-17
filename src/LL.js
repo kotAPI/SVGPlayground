@@ -347,134 +347,100 @@ var LinkedList = function() {
       console.log(currentNode.value)
       currentNode = currentNode.next
     }
+    console.log('******************')
   }
+
   api.removeNode = function(val) {
     let currentNode = api.head
     let index = 0
 
-    if (currentNode.next === null && api.head.value === val) {
-      api.head = null
-      lib.deleteNode(index, 200)
+    if (api.head === null) {
+      console.log('list empty')
       return
-    }
-    if (api.head.next !== null && api.head.value === val) {
-      api.head = currentNode.next
-      lib.deleteNode(0, 200)
-      return
-    }
-    while (currentNode !== null) {
-      if (currentNode.next.value === val) {
-        //
-        let length = api.listLength()
-        lib
-          .moveNode(index + 1, LEFTOFFSET * index + CANVASOFFSET, 300, 200)
-          .then(() => {
-            lib
-              .moveEdge(
-                index + 1,
-                index + 2,
-                LEFTOFFSET * index + CANVASOFFSET,
-                300,
-                LEFTOFFSET * (index + 1) + CANVASOFFSET,
-                200,
-                200
-              )
-              .then(() => {
-                lib
-                  .moveEdge(
-                    index,
-                    index + 1,
-                    LEFTOFFSET * index + CANVASOFFSET,
-                    200,
-                    LEFTOFFSET * (index + 2) + CANVASOFFSET,
-                    200,
-                    100
-                  )
-                  .then(() => {
-                    for (var i = length - 2; i >= index + 1; i--) {
-                      if (i !== index + 1) {
-                        lib.moveEdge(
-                          i,
-                          i + 1,
-                          LEFTOFFSET * (i - 1) + CANVASOFFSET,
-                          200,
-                          LEFTOFFSET * i + CANVASOFFSET,
-                          200,
-                          200
-                        )
-                        lib.changeEdgeID(
-                          'edge' + i + '-' + (i + 1),
-                          'edge' + (i - 1) + '-' + i
-                        )
-                      }
-                    }
-                    for (var j = length - 2; j > index - 1; j--) {
-                      if (index + 1 !== j + 1) {
-                        lib.moveNode(
-                          j + 1,
-                          LEFTOFFSET * j + CANVASOFFSET,
-                          200,
-                          200
-                        )
-                        lib.changeNodeID(j + 1, j)
-                      }
-                    }
-                  })
-                lib.deleteEdge('edge' + (index + 1) + '-' + (index + 2), 20)
-                lib.deleteNode(index + 1, 200)
-              })
-          })
-
-        //
-
-        currentNode.next = currentNode.next.next
+    } else if (api.head.value === val) {
+      if (api.head.next === null) {
+        // delete head
+        api.head = null
+        return
+      } else if (api.head.next !== null) {
+        // delete head
+        api.head = api.head.next
+        // move every edge and node to left
         return
       }
-      currentNode = currentNode.next
-      index++
+    } else {
+      /// Check if node is at the end of list
+      // remove node
+      while (currentNode.next !== null) {
+        if (currentNode.next.value === val) {
+          if (currentNode.next.next === null) {
+            currentNode.next = null
+            return
+          }
+          // remove currentNode
+          // move everything to the left;
+          api.traverseListByIndex(index + 1, 200).then(function() {
+            console.log(index)
+            lib.moveNode(
+              index - 1,
+              LEFTOFFSET * (index - 2) + CANVASOFFSET,
+              300,
+              200
+            )
+
+            //api.moveEdgesAndNodesToLeft(index + 2, api.listLength())
+            lib.createEdge(
+              index,
+              index + 1,
+              LEFTOFFSET * index + CANVASOFFSET,
+              200,
+              LEFTOFFSET * (index + 1) + CANVASOFFSET,
+              200,
+              300
+            )
+
+            lib.deleteNode(index - 1, 200)
+            console.log(index)
+            lib.deleteEdge('edge' + index + '-' + (index + 1))
+          })
+          currentNode.next = currentNode.next.next
+        }
+        currentNode = currentNode.next
+        index++
+      }
     }
   }
+
+  /**
+   * Helper animation functions
+   */
+  api.moveEdgesAndNodesToLeft = (a, b) => {
+    new Promise((resolve, reject) => {
+      for (let i = a; i <= b; i++) {
+        lib.moveNode(i, LEFTOFFSET * (i - 1) + CANVASOFFSET, 200, 200)
+        lib.changeNodeID(i, i - 1)
+      }
+      for (let i = a; i < b; i++) {
+        console.log(i, a, b)
+        lib.moveEdge(
+          i,
+          i + 1,
+          LEFTOFFSET * (i - 1) + CANVASOFFSET,
+          200,
+          LEFTOFFSET * i + CANVASOFFSET,
+          200,
+          200
+        )
+        lib.changeEdgeID('edge' + i + '-' + (i + 1), 'edge' + (i - 1) + '-' + i)
+      }
+      resolve()
+    })
+  }
+
   return api
 }
 
 var LL = LinkedList()
-
-/*
-
-let edge1, edge2, edge3, edge4, edge5
-Promise.all([
-  lib.createEdge(0, 1, 0, 0, 100, 100, 1000).then(edge => (edge1 = edge)),
-  lib.createEdge(1, 3, 50, 0, 500, 150, 1000).then(edge => (edge2 = edge)),
-  lib.createEdge(2, 3, 0, 50, 400, 200, 1000).then(edge => (edge3 = edge)),
-  lib.createEdge(3, 4, 100, 50, 40, 200, 1000).then(edge => (edge4 = edge)),
-  lib.createEdge(4, 5, 80, 500, 400, 20, 1000).then(edge => (edge5 = edge))
-]).then(() => {
-  console.log('done creating nodes')
-  Promise.all([
-    lib.moveEdge(edge1, 60, 10, 500, 500, 1000).then(edge => (edge1 = edge)),
-    lib.moveEdge(edge2, 10, 90, 100, 750, 1000).then(edge => (edge2 = edge)),
-    lib.moveEdge(edge3, 0, 150, 400, 100, 1000).then(edge => (edge3 = edge)),
-    lib.moveEdge(edge4, 10, 50, 400, 200, 1000).then(edge => (edge4 = edge)),
-    lib.moveEdge(edge5, 800, 500, 4, 20, 3000).then(edge => (edge5 = edge))
-  ]).then(() => {
-    console.log('done animating edges')
-  })
-})
-
-lib
-  .createNode(1, 10, 100, 100, 20, 2000)
-  .then(node => lib.moveNode(1, 50, 100, 500))
-
-lib
-  .createEdge(0, 1, 0, 0, 100, 100, 1000)
-  .then(() => lib.moveEdge(0, 1, 60, 10, 500, 500, 1000))
-
-// move node node1
-// move node
-// create edge
-// move node
-lib.createNode(1, 10, 100, 100, 20, 200).then(() => {
-  lib.createEdge(0, 1, 0, 0, 300, 200, 1000)
-})
-
-*/
+LL.addToList(1)
+LL.addToList(2)
+LL.addToList(3)
