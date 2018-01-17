@@ -5,7 +5,8 @@ var Lib = function() {
   api.colorPalette = {
     red: 'rgb(255,0,0)',
     transparent: 'rgb(0,0,0)',
-    white: 'rgb(255,255,255)'
+    white: 'rgb(255,255,255)',
+    black: 'rgb(0,0,0)'
   }
 
   api.timingConfig = {
@@ -69,7 +70,8 @@ var Lib = function() {
         resolve(nodeGroup)
       }, api.timingConfig.redrawFrequency * numFrames)
     })
-  api.deleteNode = (id, duration) => {
+
+  api.deleteNode = (id, duration) =>
     new Promise((resolve, reject) => {
       var nodeGroup = document.getElementById('node-group-' + id)
       var node = nodeGroup.childNodes[0]
@@ -88,7 +90,7 @@ var Lib = function() {
         resolve(true)
       }, api.timingConfig.redrawFrequency * numFrames)
     })
-  }
+
   api.moveNode = (id, new_x, new_y, duration) =>
     new Promise((resolve, reject) => {
       var nodeGroup = document.getElementById('node-group-' + id)
@@ -193,8 +195,8 @@ var Lib = function() {
         resolve()
       }, api.timingConfig.redrawFrequency * numFrames)
     })
-  }
-  api.deleteEdge = (id, duration) => {
+
+  api.deleteEdge = (id, duration) =>
     new Promise((resolve, reject) => {
       var edge = document.getElementById(id)
 
@@ -219,7 +221,7 @@ var Lib = function() {
         resolve(edge)
       }, api.timingConfig.redrawFrequency * numFrames)
     })
-  }
+
   api.moveEdge = (fromNode, toNode, new_x1, new_y1, new_x2, new_y2, duration) =>
     new Promise((resolve, reject) => {
       var edge = document.getElementById('edge' + fromNode + '-' + toNode)
@@ -247,7 +249,22 @@ var Lib = function() {
         resolve(edge)
       }, api.timingConfig.redrawFrequency * numFrames)
     })
+  api.resetAll = () => {
+    new Promise((resolve, reject) => {
+      var nodes = document.getElementsByTagName('circle')
+      var texts = document.getElementsByTagName('text')
 
+      for (var i = 0; i < nodes.length; i++) {
+        nodes[i].setAttribute('fill', api.colorPalette.white)
+        nodes[i].setAttribute('stroke', api.colorPalette.black)
+        nodes[i].setAttribute('stroke-width', 4)
+      }
+
+      for (var i = 0; i < texts.length; i++) {
+        texts[i].setAttribute('fill', api.colorPalette.black)
+      }
+    })
+  }
   api.createEdge = (fromNode, toNode, x1, y1, x2, y2, duration) =>
     new Promise((resolve, reject) => {
       let svg = document.getElementById('svg-container')

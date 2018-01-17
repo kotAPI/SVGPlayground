@@ -24,6 +24,7 @@ var LinkedList = function() {
     if (api.head === null) {
       api.head = newNode
       // create node
+
       lib.createNode(
         index,
         api.head.value,
@@ -32,6 +33,7 @@ var LinkedList = function() {
         20,
         200
       )
+
       return
     }
     while (currentNode.next !== null) {
@@ -43,27 +45,52 @@ var LinkedList = function() {
 
     // draw edge
     // create node
-    lib
-      .createNode(
-        index + 1,
-        newNode.value,
-        LEFTOFFSET * (index + 1) + CANVASOFFSET,
-        200,
-        20,
-        200
-      )
-      .then(() => {
-        lib.createEdge(
-          index,
+    api.traverseListByIndex(index, 200).then(() => {
+      lib
+        .createNode(
           index + 1,
-          LEFTOFFSET * index + CANVASOFFSET,
-          200,
+          newNode.value,
           LEFTOFFSET * (index + 1) + CANVASOFFSET,
           200,
-          300
+          20,
+          200
         )
-      })
+        .then(() => {
+          lib.createEdge(
+            index,
+            index + 1,
+            LEFTOFFSET * index + CANVASOFFSET,
+            200,
+            LEFTOFFSET * (index + 1) + CANVASOFFSET,
+            200,
+            300
+          )
+        })
+    })
   }
+
+  api.searchListByValue = val =>
+    new Promise((resolve, reject) => {
+      let currentNode = api.head
+      let index = 0
+
+      while (currentNode !== null) {
+        if (currentNode.value === val) {
+          api.traverseListByIndex(index, 200).then(() =>
+            api.displayMessage(`
+          value <b>${val}</b> found at index ${index} `)
+          )
+          return
+        }
+        currentNode = currentNode.next
+        index++
+      }
+
+      api.traverseListByIndex(index, 200).then(() =>
+        api.displayMessage(`
+      value <b>${val}</b> not found! `)
+      )
+    })
 
   api.traverseListByIndex = (index, duration) =>
     new Promise((resolve, reject) => {
@@ -95,8 +122,24 @@ var LinkedList = function() {
   api.addNodeAt = function(index, value) {
     let currentNode = api.head
     let newNode = api.createNode(value)
-
-    if (index === 0) {
+    if (index < 0) {
+      api.displayMessage('Invalid Index')
+      return
+    } else if (api.head === null && index !== 0) {
+      api.displayMessage('Head is null (Linked List is empty)')
+      return
+    } else if (index === 0 && api.head === null) {
+      lib.createNode(
+        index,
+        newNode.value,
+        LEFTOFFSET * index + CANVASOFFSET,
+        200,
+        20,
+        200
+      )
+      api.head = newNode
+      return
+    } else if (index === 0) {
       lib
         .createNode(
           index,
@@ -169,106 +212,122 @@ var LinkedList = function() {
       return
     }
     if (index > api.listLength()) {
-      throw Error('invalid index')
+      api.displayMessage(`<b>${index}</b> invalid! `)
+      return
     }
 
     let i = 1
     while (currentNode !== null) {
       if (index === i) {
-        newNode.next = currentNode.next
-        currentNode.next = newNode
+        api.traverseListByIndex(index - 1, 200).then(function() {
+          newNode.next = currentNode.next
+          currentNode.next = newNode
 
-        lib
-          .createNode(
-            index,
-            newNode.value,
-            LEFTOFFSET * index + CANVASOFFSET,
-            300,
-            20,
-            300
-          )
-          .then(() => {
-            lib
-              .createEdge(
-                index,
-                index + 1,
-                LEFTOFFSET * index + CANVASOFFSET,
-                300,
-                LEFTOFFSET * index + CANVASOFFSET,
-                200,
-                300
-              )
-              .then(() => {
-                lib
-                  .moveEdge(
-                    index - 1,
-                    index,
-                    LEFTOFFSET * (index - 1) + CANVASOFFSET,
-                    200,
-                    LEFTOFFSET * index + CANVASOFFSET,
-                    300,
-                    200
-                  )
-                  .then(() => {
-                    var length = api.listLength()
+          lib
+            .createNode(
+              index,
+              newNode.value,
+              LEFTOFFSET * index + CANVASOFFSET,
+              300,
+              20,
+              300
+            )
+            .then(() => {
+              lib
+                .createEdge(
+                  index,
+                  index + 1,
+                  LEFTOFFSET * index + CANVASOFFSET,
+                  300,
+                  LEFTOFFSET * index + CANVASOFFSET,
+                  200,
+                  300
+                )
+                .then(() => {
+                  lib
+                    .moveEdge(
+                      index - 1,
+                      index,
+                      LEFTOFFSET * (index - 1) + CANVASOFFSET,
+                      200,
+                      LEFTOFFSET * index + CANVASOFFSET,
+                      300,
+                      200
+                    )
+                    .then(() => {
+                      var length = api.listLength()
 
-                    // change node ids
-                    for (let i = length - 2; i >= index; i--) {
-                      lib.changeNodeID(i, i + 1)
-                    }
-                    // change edge ids
+                      // change node ids
+                      for (let i = length - 2; i >= index; i--) {
+                        lib.changeNodeID(i, i + 1)
+                      }
+                      // change edge ids
 
-                    for (let i = length - 2; i > index; i--) {
-                      lib.changeEdgeID(
-                        'edge' + (i - 1) + '-' + i,
-                        'edge' + i + '-' + (i + 1)
+                      for (let i = length - 2; i > index; i--) {
+                        lib.changeEdgeID(
+                          'edge' + (i - 1) + '-' + i,
+                          'edge' + i + '-' + (i + 1)
+                        )
+                        //lib.moveEdge(i-1,i,LEFTOFFSET*(i) +CANVASOFFSET,200,LEFTOFFSET*(i+1) +CANVASOFFSET,200,200)
+                      }
+                      for (let i = length - 2; i > index; i--) {
+                        lib.moveEdge(
+                          i,
+                          i + 1,
+                          LEFTOFFSET * i + CANVASOFFSET,
+                          200,
+                          LEFTOFFSET * (i + 1) + CANVASOFFSET,
+                          200,
+                          200
+                        )
+                      }
+
+                      for (let i = index + 1; i < length; i++) {
+                        //lib.changeNodeID(i,i+1)
+                        lib.moveNode(i, LEFTOFFSET * i + CANVASOFFSET, 200, 200)
+                      }
+                      lib.moveNode(
+                        index,
+                        LEFTOFFSET * i + CANVASOFFSET,
+                        200,
+                        200
                       )
-                      //lib.moveEdge(i-1,i,LEFTOFFSET*(i) +CANVASOFFSET,200,LEFTOFFSET*(i+1) +CANVASOFFSET,200,200)
-                    }
-                    for (let i = length - 2; i > index; i--) {
                       lib.moveEdge(
-                        i,
-                        i + 1,
+                        index - 1,
+                        index,
+                        LEFTOFFSET * (i - 1) + CANVASOFFSET,
+                        200,
+                        LEFTOFFSET * i + CANVASOFFSET,
+                        200,
+                        200
+                      )
+                      lib.moveEdge(
+                        index,
+                        index + 1,
                         LEFTOFFSET * i + CANVASOFFSET,
                         200,
                         LEFTOFFSET * (i + 1) + CANVASOFFSET,
                         200,
                         200
                       )
-                    }
-
-                    for (let i = index + 1; i < length; i++) {
-                      //lib.changeNodeID(i,i+1)
-                      lib.moveNode(i, LEFTOFFSET * i + CANVASOFFSET, 200, 200)
-                    }
-                    lib.moveNode(index, LEFTOFFSET * i + CANVASOFFSET, 200, 200)
-                    lib.moveEdge(
-                      index - 1,
-                      index,
-                      LEFTOFFSET * (i - 1) + CANVASOFFSET,
-                      200,
-                      LEFTOFFSET * i + CANVASOFFSET,
-                      200,
-                      200
-                    )
-                    lib.moveEdge(
-                      index,
-                      index + 1,
-                      LEFTOFFSET * i + CANVASOFFSET,
-                      200,
-                      LEFTOFFSET * (i + 1) + CANVASOFFSET,
-                      200,
-                      200
-                    )
-                  })
-              })
-          })
+                    })
+                })
+            })
+        })
 
         return
       }
       i++
       currentNode = currentNode.next
     }
+  }
+  api.displayMessage = function(message) {
+    var messageBox = document.getElementById('messages')
+    messageBox.innerHTML = message
+  }
+  api.resetMessage = function() {
+    var messageBox = document.getElementById('messages')
+    messageBox.innerHTML = ''
   }
   api.listLength = function() {
     let currentNode = api.head
@@ -379,11 +438,6 @@ var LinkedList = function() {
 }
 
 var LL = LinkedList()
-LL.addToList(1)
-LL.addToList(2)
-LL.addToList(3)
-LL.addToList(4)
-LL.addToList(5)
 
 /*
 

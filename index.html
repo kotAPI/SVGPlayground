@@ -108,6 +108,13 @@
       padding:10px 0px;
       background-color: #f5f5f5;
     }
+    h1{
+      text-align: center
+    }
+    b{
+      font-weight: 700;
+      color:orangered;
+    }
     </style>
 </head>
 
@@ -115,6 +122,7 @@
     <div>
         <div >
           <div >
+            <h1>Insert And Searching Linked List</h1>
             <svg id="svg-container">
             
             </svg>
@@ -205,16 +213,20 @@
 
 
   	function insertIntoLinkedList(){
+      lib.resetAll()
+      LL.resetMessage()
   		var val = document.getElementById("insert").value;
   		val = parseInt(val);
   		LL.addToList(val)
     }
     
-    function removeFromLinkedList(){
-      var val = document.getElementById("remove").value;
+    function searchforNode(){
+      lib.resetAll()
+      LL.resetMessage()
+      var val = document.getElementById("search").value;
   		val = parseInt(val);
 
-      LL.removeNode(val)
+      LL.searchListByValue(val)
      // LL.printList()  
     }
 

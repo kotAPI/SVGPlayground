@@ -108,6 +108,13 @@
           padding:10px 0px;
           background-color: #f5f5f5;
         }
+        h1{
+      text-align: center
+    }
+    b{
+      font-weight: 700;
+      color:orangered;
+    }
         </style>
     </head>
     
@@ -115,6 +122,7 @@
         <div>
             <div >
               <div >
+                <h1>Custom Insertion</h1>
                 <svg id="svg-container">
                 
                 </svg>
@@ -204,6 +212,8 @@
     
       <script>
         function insertAtLinkedList(){
+          lib.resetAll()
+          LL.resetMessage();
           let index = parseInt(document.getElementById("index").value)
           let data = parseInt(document.getElementById("data").value)
 
